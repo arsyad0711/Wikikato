@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Délice d'Arsy | The Art of Sweet Delight</title>
+    <!-- Font Awesome 6 (free) for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Helvetica Neue', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: #f5f3f0;
+            color: #2b2b2b;
+            line-height: 1.6;
+        }
+
+        :root {
+            --gray-ultralight: #f0efec;
+            --gray-soft: #e2dfda;
+            --gray-mid: #7e7a75;
+            --gray-dark: #3d3d3d;
+            --brown-light: #b7a18b;
+            --brown-gold: #9c7e6b;
+            --brown-rich: #6b4f3c;
+            --brown-deep: #4f3e32;
+            --cream: #faf7f2;
+            --white-soft: #ffffff;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        /* header */
+        header {
+            background-color: #ffffffdd;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.03), 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--gray-soft);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(145deg, var(--brown-rich), var(--brown-deep));
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e9dbcf;
+            font-size: 32px;
+            box-shadow: 0 8px 14px rgba(106, 78, 55, 0.25);
+            border: 2px solid rgba(255, 245, 235, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .logo-upload {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .logo-upload-label {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: var(--brown-gold);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+            border: 1px solid white;
+        }
+
+        .logo-text h1 {
+            font-size: 1.9rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: var(--brown-deep);
+            line-height: 1.2;
+        }
+
+        .logo-text h1 span {
+            font-weight: 600;
+            color: var(--brown-rich);
+        }
+
+        .logo-text .slogan {
+            font-size: 0.8rem;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--gray-mid);
+            margin-top: 2px;
+            font-style: italic;
+            word-spacing: 2px;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 35px;
+            list-style: none;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--gray-dark);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: 0.2s;
+            letter-spacing: 0.5px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid transparent;
+        }
+
+        nav ul li a:hover {
+            color: var(--brown-rich);
+            border-bottom-color: var(--brown-gold);
+        }
+
+        /* hero section */
+        .hero {
+            background: linear-gradient(107deg, #f3eee8 0%, #e8dfd5 100%);
+            border-radius: 0 0 40px 40px;
+            margin-bottom: 40px;
+            padding: 50px 0;
+            border-bottom: 1px solid var(--brown-light);
+        }
+
+        .hero-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .hero-text {
+            flex: 1 1 300px;
+        }
+
+        .hero-text h2 {
+            font-size: 3rem;
+            font-weight: 300;
+            color: var(--brown-deep);
+            line-height: 1.2;
+        }
+
+        .hero-text h2 strong {
+            font-weight: 500;
+            color: var(--brown-rich);
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--gray-dark);
+            margin: 25px 0 15px;
+            max-width: 500px;
+            font-style: italic;
+        }
+
+        .hero-image {
+            flex: 0 0 280px;
+            background-color: #d4c9bf;
+            border-radius: 50% 50% 30px 30px;
+            height: 220px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><circle cx="100" cy="110" r="60" fill="%239c7e6b" opacity="0.25"/><path d="M70,100 Q100,40 130,100 Q140,135 115,150 Q100,165 85,150 Q60,135 70,100" fill="%236b4f3c" opacity="0.4"/><circle cx="100" cy="90" r="15" fill="%23b7a18b" opacity="0.6"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            box-shadow: -20px 20px 30px rgba(75, 55, 40, 0.15);
+        }
+
+        /* section menu dengan gambar */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--brown-deep);
+            margin: 70px 0 40px;
+            position: relative;
+        }
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 2px;
+            background: var(--brown-gold);
+            margin: 15px auto 0;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 35px;
+            margin-top: 30px;
+        }
+
+        .menu-card {
+            background: var(--white-soft);
+            border-radius: 30px;
+            box-shadow: 0 15px 30px -8px rgba(85, 65, 50, 0.08);
+            transition: 0.25s ease;
+            border: 1px solid var(--gray-soft);
+            overflow: hidden;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--brown-light);
+            box-shadow: 0 25px 35px -12px #6b4f3c30;
+        }
+
+        .menu-image {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        /* Gambar-gambar untuk setiap menu (menggunakan background gradient dan pattern sebagai placeholder) */
+        .menu-image.opera {
+            background-image: linear-gradient(135deg, #8b6b4f, #d4a373), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.2"><rect width="100" height="100" fill="white"/><path d="M20,20 L80,20 L70,80 L30,80 Z" fill="%23b08968"/><circle cx="50" cy="40" r="10" fill="%23e6ccb5"/></svg>');
+            background-blend-mode: overlay;
+        }
+        .menu-image.saint-honore {
+            background-image: linear-gradient(135deg, #b7a18b, #8b6b4f), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.2"><circle cx="50" cy="50" r="30" fill="none" stroke="white" stroke-width="5"/><circle cx="30" cy="30" r="8" fill="white"/><circle cx="70" cy="40" r="8" fill="white"/></svg>');
+            background-blend-mode: overlay;
+        }
+        .menu-image.tarte-tatin {
+            background-image: linear-gradient(135deg, #c46b3f, #9c4f2b), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.2"><circle cx="50" cy="50" r="35" fill="white" opacity="0.3"/><path d="M30,40 Q50,20 70,40 Q80,60 60,75 Q40,80 30,60 Q20,45 30,40" fill="%23e6b17e"/></svg>');
+            background-blend-mode: overlay;
+        }
+        .menu-image.fraisier {
+            background-image: linear-gradient(135deg, #f2a0a0, #d46b6b), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.2"><circle cx="50" cy="50" r="35" fill="white"/><circle cx="35" cy="45" r="8" fill="%23ff6b6b"/><circle cx="65" cy="55" r="8" fill="%23ff6b6b"/></svg>');
+            background-blend-mode: overlay;
+        }
+        .menu-image.paris-brest {
+            background-image: linear-gradient(135deg, #c9a87c, #a57c5a), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.2"><circle cx="50" cy="50" r="35" fill="none" stroke="white" stroke-width="8"/><path d="M35,35 L65,65 M65,35 L35,65" stroke="white" stroke-width="4"/></svg>');
+            background-blend-mode: overlay;
+        }
+        .menu-image.eclair {
+            background-image: linear-gradient(135deg, #7b4f3c, #5d3a2b), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.2"><rect x="20" y="35" width="60" height="30" rx="10" fill="white"/><path d="M30,45 L70,45" stroke="%23987264" stroke-width="5"/></svg>');
+            background-blend-mode: overlay;
+        }
+
+        .menu-content {
+            padding: 25px 25px 30px;
+            text-align: center;
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: var(--brown-deep);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .menu-desc {
+            color: var(--gray-dark);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin: 15px 0 15px;
+            font-style: normal;
+            text-align: left;
+            padding: 0 5px;
+        }
+
+        .menu-desc i {
+            color: var(--brown-gold);
+            margin-right: 5px;
+            font-size: 0.8rem;
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: 350;
+            color: var(--brown-rich);
+            letter-spacing: 1px;
+            border-top: 1px dashed var(--gray-soft);
+            padding-top: 15px;
+            margin-top: 10px;
+        }
+        .price small {
+            font-size: 1rem;
+            color: var(--gray-mid);
+        }
+
+        .menu-upload {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .menu-upload input {
+            display: none;
+        }
+
+        .menu-upload label {
+            background: var(--brown-gold);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+
+        .menu-upload label:hover {
+            background: var(--brown-rich);
+        }
+
+        /* about section */
+        .about-section {
+            background-color: #ede7e0;
+            border-radius: 50px 50px 0 0;
+            padding: 60px 0;
+            margin-top: 70px;
+        }
+
+        .about-flex {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .about-text {
+            flex: 2 1 300px;
+        }
+
+        .about-text h3 {
+            font-size: 2.2rem;
+            font-weight: 350;
+            color: var(--brown-deep);
+            margin-bottom: 25px;
+        }
+
+        .about-text p {
+            color: var(--gray-dark);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .about-highlight {
+            background: rgba(255,255,250,0.5);
+            padding: 20px;
+            border-radius: 20px;
+            border-left: 6px solid var(--brown-gold);
+            font-style: italic;
+        }
+
+        .about-image {
+            flex: 1 1 200px;
+            background-color: #bcab9b;
+            height: 250px;
+            border-radius: 10px 100px / 120px 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path d="M40,150 Q80,170 120,150 Q160,130 150,90 Q140,50 100,40 Q60,30 45,70 Q30,110 40,150" fill="%239c7e6b" opacity="0.3"/><path d="M80,120 L120,120 L115,160 L85,160 Z" fill="%236b4f3c" opacity="0.4"/></svg>');
+            background-size: cover;
+            background-position: center;
+            box-shadow: 20px 20px 0px var(--brown-light);
+        }
+
+        /* contact section */
+        .contact-section {
+            padding: 60px 0 70px;
+            background: linear-gradient(145deg, #f5f1ed 20%, #e3dbd2 100%);
+        }
+
+        .contact-flex {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .contact-info {
+            flex: 1 1 260px;
+        }
+
+        .contact-info h4 {
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--brown-deep);
+            margin-bottom: 20px;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0;
+            color: var(--gray-dark);
+        }
+        .contact-detail i {
+            font-size: 2rem;
+            color: var(--brown-gold);
+            width: 45px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 30px;
+            margin-top: 35px;
+        }
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--brown-rich);
+            color: #f0e4d8;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            font-size: 2.2rem;
+            transition: 0.2s;
+            border: 2px solid transparent;
+            box-shadow: 0 6px 12px rgba(75, 55, 40, 0.2);
+            text-decoration: none;
+        }
+        .social-links a:hover {
+            background: var(--brown-deep);
+            color: white;
+            border-color: var(--brown-gold);
+            transform: scale(1.05);
+        }
+
+        .contact-form-sim {
+            flex: 2 1 320px;
+            background: #ffffffc2;
+            backdrop-filter: blur(5px);
+            padding: 35px 40px;
+            border-radius: 40px;
+            box-shadow: 0 30px 40px -30px #3d2e23;
+        }
+
+        .contact-form-sim p {
+            font-size: 1.3rem;
+            color: var(--brown-deep);
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+        .btn-wa {
+            display: inline-block;
+            background: #25D366;
+            color: white;
+            padding: 18px 40px;
+            border-radius: 60px;
+            font-size: 1.3rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            box-shadow: 0 8px 18px rgba(37, 211, 102, 0.3);
+            transition: 0.2s;
+            margin-top: 10px;
+        }
+        .btn-wa i {
+            margin-right: 10px;
+        }
+        .btn-wa:hover {
+            background: #20b859;
+            box-shadow: 0 10px 22px rgba(37, 211, 102, 0.5);
+        }
+
+        .btn-ig {
+            background: #d62976;
+            margin-left: 15px;
+            padding: 18px 40px;
+            border-radius: 60px;
+            color: white;
+            font-size: 1.3rem;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 8px 18px rgba(214, 41, 118, 0.25);
+        }
+        .btn-ig i { margin-right: 10px; }
+
+        /* footer */
+        footer {
+            background-color: #383430;
+            color: #cdc5bc;
+            padding: 25px 0;
+            text-align: center;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            border-top: 6px solid var(--brown-light);
+        }
+
+        footer a {
+            color: #e0cfc0;
+            text-decoration: none;
+        }
+
+        @media (max-width: 800px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            nav ul {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .hero-text h2 {
+                font-size: 2.4rem;
+            }
+        }
+        @media (max-width: 550px) {
+            .btn-ig, .btn-wa {
+                display: block;
+                margin: 15px 0;
+                text-align: center;
+            }
+            .btn-ig {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <img src="file:///C:/Users/Gatot%20Mulyono/Downloads/WhatsApp%20Image%202026-03-06%20at%2000.13.11.jpeg" alt="Logo" onerror="this.style.display='none'; document.querySelector('.logo-icon i').style.display='block';">
+                    <label for="logo-upload" class="logo-upload-label" title="Upload Logo"><i class="fas fa-camera"></i></label>
+                    <input type="file" id="logo-upload" class="logo-upload" accept="image/*">
+                </div>
+                <div class="logo-text">
+                    <h1>Le <span>Délice</span> d’Arsy</h1>
+                    <div class="slogan">The Art of Sweet Delight</div>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#about">À propos</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-text">
+                <h2>Pâtisserie <strong>d’exception</strong></h2>
+                <p>Rasakan kemewahan pastry Prancis autentik, dibuat dengan cinta dan sentuhan artistik.</p>
+            </div>
+            <div class="hero-image"></div>
+        </div>
+    </section>
+
+    <section id="menu" class="container">
+        <h2 class="section-title">Signature Menu</h2>
+        <div class="menu-grid">
+            <!-- Menu 1: Opéra -->
+            <div class="menu-card">
+                <div class="menu-image opera"></div>
+                <div class="menu-content">
+                    <h3>Opéra</h3>
+                    <div class="menu-desc">
+                        <i class="fas fa-circle"></i> Lapisan almond joconde yang lembut<br>
+                        <i class="fas fa-circle"></i> Coffee buttercream dan ganache cokelat 70%<br>
+                        <i class="fas fa-circle"></i> Glaze cokelat mengkilap khas Paris
+                    </div>
+                    <div class="price">Rp 68K <small>/slice</small></div>
+                    <div class="menu-upload">
+                        <input type="file" id="upload-opera" accept="image/*">
+                        <label for="upload-opera">Upload Gambar</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Menu 2: Saint-Honoré -->
+            <div class="menu-card">
+                <div class="menu-image saint-honore"></div>
+                <div class="menu-content">
+                    <h3>Saint-Honoré</h3>
+                    <div class="menu-desc">
+                        <i class="fas fa-circle"></i> Puff pastry renyah berlapis caramel<br>
+                        <i class="fas fa-circle"></i> Choux isi krim vanilla bean<br>
+                        <i class="fas fa-circle"></i> Crème Chantilly ringan di atasnya
+                    </div>
+                    <div class="price">Rp 89K <small>/porsi</small></div>
+                    <div class="menu-upload">
+                        <input type="file" id="upload-saint-honore" accept="image/*">
+                        <label for="upload-saint-honore">Upload Gambar</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Menu 3: Tarte Tatin -->
+            <div class="menu-card">
+                <div class="menu-image tarte-tatin"></div>
+                <div class="menu-content">
+                    <h3>Tarte Tatin</h3>
+                    <div class="menu-desc">
+                        <i class="fas fa-circle"></i> Apel karamel dengan sentuhan butter<br>
+                        <i class="fas fa-circle"></i> Puff pastry homemade yang renyah<br>
+                        <i class="fas fa-circle"></i> Disajikan dengan vanilla ice cream
+                    </div>
+                    <div class="price">Rp 79K</div>
+                    <div class="menu-upload">
+                        <input type="file" id="upload-tarte-tatin" accept="image/*">
+                        <label for="upload-tarte-tatin">Upload Gambar</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Menu 4: Fraisier -->
+            <div class="menu-card">
+                <div class="menu-image fraisier"></div>
+                <div class="menu-content">
+                    <h3>Fraisier</h3>
+                    <div class="menu-desc">
+                        <i class="fas fa-circle"></i> Genoise sponge yang lembut<br>
+                        <i class="fas fa-circle"></i> Lapisan mousseline krim dan stroberi segar<br>
+                        <i class="fas fa-circle"></i> Topping almond slice dan glaze
+                    </div>
+                    <div class="price">Rp 75K <small>/slice</small></div>
+                    <div class="menu-upload">
+                        <input type="file" id="upload-fraisier" accept="image/*">
+                        <label for="upload-fraisier">Upload Gambar</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Menu 5: Paris-Brest -->
+            <div class="menu-card">
+                <div class="menu-image paris-brest"></div>
+                <div class="menu-content">
+                    <h3>Paris-Brest</h3>
+                    <div class="menu-desc">
+                        <i class="fas fa-circle"></i> Choux pastry berbentuk roda<br>
+                        <i class="fas fa-circle"></i> Praliné hazelnut khas Prancis<br>
+                        <i class="fas fa-circle"></i> Krim mousseline dengan potongan nougatine
+                    </div>
+                    <div class="price">Rp 85K</div>
+                    <div class="menu-upload">
+                        <input type="file" id="upload-paris-brest" accept="image/*">
+                        <label for="upload-paris-brest">Upload Gambar</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Menu 6: Éclair Chocolat -->
+            <div class="menu-card">
+                <div class="menu-image eclair"></div>
+                <div class="menu-content">
+                    <h3>Éclair Chocolat</h3>
+                    <div class="menu-desc">
+                        <i class="fas fa-circle"></i> Choux pastry dengan tekstur sempurna<br>
+                        <i class="fas fa-circle"></i> Filling vanilla bean dari Madagascar<br>
+                        <i class="fas fa-circle"></i> Lapisan cokelat 70% mengkilap
+                    </div>
+                    <div class="price">Rp 45K</div>
+                    <div class="menu-upload">
+                        <input type="file" id="upload-eclair" accept="image/*">
+                        <label for="upload-eclair">Upload Gambar</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="container about-flex">
+            <div class="about-text">
+                <h3>Tentang Kami — L'Art de la Pâtisserie</h3>
+                <p>Terinspirasi dari jalanan Paris dan pâtisserie klasik, <strong>Le Délice d’Arsy</strong> lahir untuk membawa keanggunan dessert Prancis ke setiap momen berharga. Setiap kue dibuat dari bahan impor pilihan dan resep turun-temurun dengan sentuhan modern.</p>
+                <div class="about-highlight">
+                    <i class="fas fa-quote-left" style="color: var(--brown-gold); margin-right: 8px;"></i> Kami percaya bahwa kue adalah simfoni rasa, tekstur, dan keindahan. Setiap gigitan adalah sebuah seni.
+                </div>
+                <p style="margin-top: 25px;">Dengan pastry chef berpengalaman di Prancis, kami menghadirkan kreasi seperti Opéra, Saint-Honoré, dan Tarte Tatin yang memanjakan lidah para penikmat kuliner Eropa.</p>
+            </div>
+            <div class="about-image"></div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container contact-flex">
+            <div class="contact-info">
+                <h4>Hubungi Kami</h4>
+                <div class="contact-detail">
+                    <i class="fas fa-map-pin"></i>
+                    <span>Jl. Senopati No. 88, Jakarta</span>
+                </div>
+                <div class="contact-detail">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>+62 812 3456 7890</span>
+                </div>
+                <div class="contact-detail">
+                    <i class="fas fa-envelope"></i>
+                    <span>delice@arsy.co</span>
+                </div>
+                <div class="social-links">
+                    <a href="#" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <div class="contact-form-sim">
+                <p><i class="fas fa-chevron-circle-right" style="color: var(--brown-gold);"></i>  Lebih cepat via WhatsApp atau Instagram</p>
+                <a href="https://wa.me/6281234567890" class="btn-wa" target="_blank"><i class="fab fa-whatsapp"></i>  Chat WA</a>
+                <a href="https://instagram.com/ledelicearsy" class="btn-ig" target="_blank"><i class="fab fa-instagram"></i>  DM Instagram</a>
+                <p style="margin-top: 25px; font-size: 0.9rem; color: var(--gray-dark);">*Respon cepat, konsultasi kue, dan pemesanan.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Le Délice d’Arsy — The Art of Sweet Delight. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem;">Designed avec élégance | <i class="fas fa-crown" style="color: #b7a18b;"></i></p>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Check if edit mode
+        const urlParams = new URLSearchParams(window.location.search);
+        const isEditMode = urlParams.get('edit') === 'true';
+
+        // Function to load image from localStorage
+        function loadImageFromStorage(key, element, type = 'src') {
+            const storedImage = localStorage.getItem(key);
+            if (storedImage) {
+                if (type === 'src') {
+                    element.src = storedImage;
+                    element.style.display = 'block';
+                    document.querySelector('.logo-icon i').style.display = 'none';
+                } else if (type === 'background') {
+                    element.style.backgroundImage = 'url(' + storedImage + ')';
+                    element.style.backgroundSize = 'cover';
+                    element.style.backgroundPosition = 'center';
+                }
+            }
+        }
+
+        // Load images on page load
+        window.addEventListener('load', function() {
+            loadImageFromStorage('logoImage', document.querySelector('.logo-icon img'), 'src');
+            
+            const menuUploads = [
+                { key: 'operaImage', class: 'opera' },
+                { key: 'saintHonoreImage', class: 'saint-honore' },
+                { key: 'tarteTatinImage', class: 'tarte-tatin' },
+                { key: 'fraisierImage', class: 'fraisier' },
+                { key: 'parisBrestImage', class: 'paris-brest' },
+                { key: 'eclairImage', class: 'eclair' }
+            ];
+            
+            menuUploads.forEach(menu => {
+                loadImageFromStorage(menu.key, document.querySelector('.menu-image.' + menu.class), 'background');
+            });
+        });
+
+        if (isEditMode) {
+            // Logo upload
+            document.getElementById('logo-upload').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.querySelector('.logo-icon img');
+                        img.src = e.target.result;
+                        img.style.display = 'block';
+                        document.querySelector('.logo-icon i').style.display = 'none';
+                        localStorage.setItem('logoImage', e.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Menu uploads
+            const menuUploads = [
+                { id: 'upload-opera', key: 'operaImage', class: 'opera' },
+                { id: 'upload-saint-honore', key: 'saintHonoreImage', class: 'saint-honore' },
+                { id: 'upload-tarte-tatin', key: 'tarteTatinImage', class: 'tarte-tatin' },
+                { id: 'upload-fraisier', key: 'fraisierImage', class: 'fraisier' },
+                { id: 'upload-paris-brest', key: 'parisBrestImage', class: 'paris-brest' },
+                { id: 'upload-eclair', key: 'eclairImage', class: 'eclair' }
+            ];
+
+            menuUploads.forEach(menu => {
+                document.getElementById(menu.id).addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const menuImage = document.querySelector('.menu-image.' + menu.class);
+                            menuImage.style.backgroundImage = 'url(' + e.target.result + ')';
+                            menuImage.style.backgroundSize = 'cover';
+                            menuImage.style.backgroundPosition = 'center';
+                            localStorage.setItem(menu.key, e.target.result);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            });
+        } else {
+            // Hide upload elements in view mode
+            document.querySelectorAll('.logo-upload-label, .menu-upload').forEach(el => el.style.display = 'none');
+        }
+    </script>
+</body>
+</html>

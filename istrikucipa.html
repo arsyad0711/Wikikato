@@ -1,0 +1,1704 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan PKL & Industri - Shifa Maharani</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #bb86fc;
+            --secondary: #03dac6;
+            --accent: #cf6679;
+            --bg-dark: #0a0a0a;
+            --surface: #1a1a1a;
+            --surface-light: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            --shadow-hover: 0 20px 40px rgba(187, 134, 252, 0.2);
+            --transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --border-radius: 20px;
+            --border-glow: 0 0 15px rgba(187, 134, 252, 0.3);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            background-image: radial-gradient(circle at 10% 20%, rgba(187, 134, 252, 0.03) 0%, transparent 30%),
+                              radial-gradient(circle at 90% 50%, rgba(3, 218, 198, 0.03) 0%, transparent 30%),
+                              radial-gradient(circle at 30% 80%, rgba(207, 102, 121, 0.03) 0%, transparent 30%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f0f1f 0%, #1a1a2e 50%, #16213e 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDEwMDAiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB4PSIwIiB5PSIwIiB3aWR0aD0iODAiIGhlaWdodD0iODAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxwYXRoIGQ9Ik0gODAgMCBMIDAgMCAwIDgwIiBmaWxsPSJub25lIiBzdHJva2U9IiNiYjg2ZmMiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0iMC4yIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3BhdHRlcm4pIi8+PC9zdmc+');
+            opacity: 0.15;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .shape {
+            position: absolute;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.1;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            left: -100px;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 5s;
+        }
+
+        .shape:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            top: 80%;
+            left: 15%;
+            animation-delay: 10s;
+        }
+
+        .shape:nth-child(4) {
+            width: 350px;
+            height: 350px;
+            top: 20%;
+            left: 85%;
+            animation-delay: 15s;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            animation: fadeInUp 1.5s ease;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 4px solid var(--primary);
+            margin: 0 auto 30px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(187, 134, 252, 0.3);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .profile-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+            border-color: var(--secondary);
+            box-shadow: 0 0 50px rgba(3, 218, 198, 0.4);
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(187, 134, 252, 0.5);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            color: var(--text-secondary);
+        }
+
+        .hero-details {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .detail-item {
+            background: rgba(30, 30, 30, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            border: 1px solid rgba(187, 134, 252, 0.3);
+            color: var(--text-primary);
+        }
+
+        .detail-item:hover {
+            background: rgba(187, 134, 252, 0.15);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: var(--border-glow);
+        }
+
+        .detail-item i {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(187, 134, 252, 0.2);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            bottom: 0;
+            left: 0;
+            transition: var(--transition);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        .section-title p {
+            max-width: 700px;
+            margin: 20px auto 0;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+        }
+
+        .highlight-box {
+            background: var(--surface);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-top: 30px;
+            border-left: 5px solid var(--accent);
+            transition: var(--transition);
+            border: 1px solid rgba(207, 102, 121, 0.2);
+        }
+
+        .highlight-box:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--accent);
+        }
+
+        .highlight-box h4 {
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .highlight-box p {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 30px 15px;
+            background: var(--surface);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(187, 134, 252, 0.1);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-10px);
+            background: linear-gradient(135deg, rgba(187, 134, 252, 0.1), rgba(3, 218, 198, 0.1));
+            border-color: var(--primary);
+            box-shadow: var(--border-glow);
+        }
+
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            transition: var(--transition);
+        }
+
+        .stat-text {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        /* PKL Details Section */
+        .pkl-details {
+            background: var(--surface);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 50px;
+            border: 1px solid rgba(187, 134, 252, 0.1);
+        }
+
+        .pkl-header {
+            background: linear-gradient(135deg, rgba(187, 134, 252, 0.2), rgba(3, 218, 198, 0.2));
+            color: var(--text-primary);
+            padding: 40px;
+            text-align: center;
+            border-bottom: 1px solid rgba(187, 134, 252, 0.3);
+        }
+
+        .pkl-header h3 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pkl-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .pkl-content {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .pkl-item {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            background: var(--surface-light);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .pkl-item:hover {
+            transform: translateY(-5px);
+            background: rgba(187, 134, 252, 0.1);
+            border-color: var(--primary);
+            box-shadow: var(--border-glow);
+        }
+
+        .pkl-item i {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 5px;
+        }
+
+        .pkl-item h4 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .pkl-item p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Gallery Section */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            height: 280px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 1 !important;
+            border: 1px solid rgba(187, 134, 252, 0.2);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.15);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(187, 134, 252, 0.3), transparent);
+            display: flex;
+            align-items: flex-end;
+            padding: 25px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay h4 {
+            color: white;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-overlay h4 {
+            transform: translateY(0);
+        }
+
+        /* Video Section */
+        .video-section {
+            background: var(--surface);
+            border-radius: var(--border-radius);
+            padding: 60px;
+            margin-top: 40px;
+            border: 1px solid rgba(187, 134, 252, 0.1);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(187, 134, 252, 0.3);
+        }
+
+        .video-container iframe, 
+        .video-container video {
+            width: 100%;
+            height: 500px;
+            border: none;
+            display: block;
+        }
+
+        .video-description {
+            text-align: center;
+            margin-top: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        /* Benefits Container (Manfaat PKL & Manfaat Kunjungan Industri) */
+        .benefits-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .benefit-card {
+            background: var(--surface);
+            border-radius: var(--border-radius);
+            padding: 35px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            opacity: 1 !important;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 0;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            transition: var(--transition);
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        .benefit-card:hover::before {
+            height: 100%;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(187, 134, 252, 0.3);
+        }
+
+        .benefit-icon {
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .benefit-card:hover .benefit-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .benefit-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Industrial Visit Benefits Section (Terpisah) */
+        .industrial-section {
+            margin-top: 80px;
+        }
+
+        .industrial-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .industrial-header h3 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .industrial-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .industrial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .industrial-item {
+            background: var(--surface);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: var(--transition);
+            border: 1px solid rgba(207, 102, 121, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .industrial-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle at top right, rgba(207, 102, 121, 0.1), transparent);
+            border-radius: 50%;
+        }
+
+        .industrial-item:hover {
+            transform: translateY(-10px);
+            background: rgba(207, 102, 121, 0.05);
+            border-color: var(--accent);
+            box-shadow: 0 0 30px rgba(207, 102, 121, 0.2);
+        }
+
+        .industrial-item i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .industrial-item h4 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .industrial-item p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .reflection-box {
+            margin-top: 50px;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(207, 102, 121, 0.1), rgba(187, 134, 252, 0.1));
+            border-radius: var(--border-radius);
+            border-left: 5px solid var(--accent);
+            border-right: 5px solid var(--primary);
+            text-align: center;
+        }
+
+        .reflection-box i {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .reflection-box h4 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .reflection-box p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-style: italic;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #0f0f1f, #1a1a2e);
+            color: var(--text-primary);
+            padding: 80px 0 30px;
+            margin-top: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--primary), var(--secondary), var(--accent), transparent);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+            bottom: -10px;
+            left: 0;
+            border-radius: 3px;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .footer-section p {
+            margin-bottom: 15px;
+            color: var(--text-muted);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .contact-item i {
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(187, 134, 252, 0.1);
+            border-radius: 50%;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            transition: var(--transition);
+            border: 1px solid rgba(187, 134, 252, 0.3);
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-5px) scale(1.1);
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(187, 134, 252, 0.2);
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-bottom i {
+            color: var(--accent);
+            animation: heartbeat 1.5s ease infinite;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-30px) rotate(5deg);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            h1 {
+                font-size: 3.2rem;
+            }
+
+            .section-title h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+            }
+
+            .hero-details {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .video-container iframe,
+            .video-container video {
+                height: 300px;
+            }
+
+            section {
+                padding: 70px 0;
+            }
+
+            .pkl-header h3 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .pkl-content {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .benefits-container {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-container {
+                grid-template-columns: 1fr;
+            }
+
+            .industrial-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo"><span>Shifa Maharani</span></a>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Beranda</a></li>
+                <li><a href="#about">Tentang</a></li>
+                <li><a href="#pkl">Detail PKL</a></li>
+                <li><a href="#gallery">Galeri</a></li>
+                <li><a href="#video">Video</a></li>
+                <li><a href="#benefits">Manfaat PKL</a></li>
+                <li><a href="#industrial">Kunjungan Industri</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        
+        <div class="container">
+            <div class="hero-content">
+                <div class="profile-image">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80" alt="Shifa Maharani">
+                </div>
+                <h1>Shifa Maharani</h1>
+                <p class="subtitle">Laporan Praktik Kerja Lapangan & Kunjungan Industri</p>
+                <p class="subtitle">XII TKJ - SMK Al-Hadid Cileungsi</p>
+                
+                <div class="hero-details">
+                    <div class="detail-item">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>XII TKJ</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>SMK Al-Hadid Cileungsi</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>23 Oktober - 3 Januari 2026</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-building"></i>
+                        <span>Politeknik Bisnis Digital</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>Tentang Saya</h2>
+                <p>Profil dan latar belakang pelaksanaan Praktik Kerja Lapangan</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Shifa Maharani</h3>
+                    <p>Saya adalah siswa kelas XII jurusan Teknik Komputer Jaringan di SMK Al-Hadid Cileungsi. Selama 3 bulan (Oktober 2025 - Januari 2026), saya melaksanakan Praktik Kerja Lapangan di Politeknik Bisnis Digital Indonesia, kampus yang bergerak di bidang Software dan bisnis digital.</p>
+                    <p>Di kampus ini, saya ditempatkan di divisi Admin & IT Support. Saya berkesempatan untuk belajar langsung dari para profesional di industri digital dan menerapkan ilmu yang telah saya pelajari di sekolah ke dalam proyek nyata.</p>
+                    
+                    <div class="highlight-box">
+                        <h4>Motto Selama PKL</h4>
+                        <p>"Pengalaman adalah guru terbaik. PKL mengajarkan saya bahwa teori dan praktik harus berjalan beriringan untuk menciptakan solusi yang bermanfaat bagi banyak orang."</p>
+                    </div>
+                </div>
+                
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">90%</div>
+                        <div class="stat-text">Nilai PKL</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">3</div>
+                        <div class="stat-text">Proyek Selesai</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">2</div>
+                        <div class="stat-text">Kunjungan Industri</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detail PKL Section -->
+    <section id="pkl">
+        <div class="container">
+            <div class="section-title">
+                <h2>Detail Pelaksanaan PKL</h2>
+                <p>Informasi lengkap tentang kegiatan selama Praktik Kerja Lapangan</p>
+            </div>
+            
+            <div class="pkl-details">
+                <div class="pkl-header">
+                    <h3>Politeknik Bisnis Digital Indonesia</h3>
+                    <p>Divisi Admin & IT Support | 23 Oktober 2025 - 3 Januari 2026</p>
+                </div>
+                
+                <div class="pkl-content">
+                    <div class="pkl-item">
+                        <i class="fas fa-tasks"></i>
+                        <div>
+                            <h4>Tugas dan Tanggung Jawab</h4>
+                            <p>Membantu tim IT dalam maintenance sistem informasi kampus, mengelola database mahasiswa, melakukan input data akademik, mendukung kegiatan administratif berbasis digital, dan memberikan technical support untuk dosen dan staf.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pkl-item">
+                        <i class="fas fa-tools"></i>
+                        <div>
+                            <h4>Teknologi yang Digunakan</h4>
+                            <p>Microsoft Office 365, Google Workspace, MySQL, PHPMyAdmin, WordPress, Canva untuk desain administrasi, dan berbagai tools manajemen dokumen digital.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pkl-item">
+                        <i class="fas fa-project-diagram"></i>
+                        <div>
+                            <h4>Proyek yang Dikerjakan</h4>
+                            <p>1. Digitalisasi arsip data mahasiswa<br>2. Sistem pelacakan inventaris IT<br>3. Website unit kegiatan mahasiswa</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pkl-item">
+                        <i class="fas fa-chart-line"></i>
+                        <div>
+                            <h4>Pencapaian</h4>
+                            <p>Berhasil menyelesaikan 3 proyek tepat waktu. Meningkatkan efisiensi pengelolaan data hingga 50%. Mendapatkan apresiasi dari kepala divisi. Memperoleh sertifikat PKL dengan predikat "Sangat Baik".</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pkl-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Jam Kerja</h4>
+                            <p>Senin - Jumat, 08.00 - 16.00 WIB. Total 450 jam praktik kerja lapangan dengan sistem hybrid (onsite & remote).</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pkl-item">
+                        <i class="fas fa-medal"></i>
+                        <div>
+                            <h4>Sertifikat & Penghargaan</h4>
+                            <p>Mendapatkan sertifikat PKL, rekomendasi kerja dari supervisor, dan penghargaan sebagai "Peserta PKL Terbaik" periode Januari 2026.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <div class="container">
+            <div class="section-title">
+                <h2>Dokumentasi Kegiatan</h2>
+                <p>Momen berharga selama pelaksanaan Praktik Kerja Lapangan</p>
+            </div>
+            
+            <div class="gallery-container">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80" alt="Sesi Briefing dengan Supervisor">
+                    <div class="gallery-overlay">
+                        <h4>Sesi Briefing dengan Supervisor</h4>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80" alt="Presentasi Proyek">
+                    <div class="gallery-overlay">
+                        <h4>Presentasi Proyek Akhir PKL</h4>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80" alt="Kerja Tim">
+                    <div class="gallery-overlay">
+                        <h4>Kolaborasi dengan Tim IT</h4>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1521790797524-b2497295b8a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1769&q=80" alt="Workshop Internal">
+                    <div class="gallery-overlay">
+                        <h4>Workshop Digitalisasi Kampus</h4>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80" alt="Sesi Administrasi">
+                    <div class="gallery-overlay">
+                        <h4>Pengelolaan Database Mahasiswa</h4>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1776&q=80" alt="Penyerahan Sertifikat">
+                    <div class="gallery-overlay">
+                        <h4>Penyerahan Sertifikat PKL</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section id="video">
+        <div class="container">
+            <div class="section-title">
+                <h2>Video Dokumentasi</h2>
+                <p>Rangkuman kegiatan PKL dalam bentuk video</p>
+            </div>
+            
+            <div class="video-section">
+                <div class="video-container">
+                    <video controls poster="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80">
+                        <source src="video-pkl.mp4" type="video/mp4">
+                        Browser Anda tidak mendukung tag video.
+                    </video>
+                </div>
+                
+                <div class="video-description">
+                    <p>Video dokumentasi perjalanan 3 bulan Praktik Kerja Lapangan di Politeknik Bisnis Digital Indonesia. Mulai dari orientasi, pengerjaan proyek digitalisasi kampus, hingga presentasi hasil kerja di hadapan supervisor dan dosen pembimbing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Manfaat PKL Section -->
+    <section id="benefits">
+        <div class="container">
+            <div class="section-title">
+                <h2>Manfaat Praktik Kerja Lapangan</h2>
+                <p>Pembelajaran dan pengalaman berharga selama 3 bulan PKL</p>
+            </div>
+            
+            <div class="benefits-container">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Skill Teknis IT & Administrasi</h3>
+                    <p>Menguasai pengelolaan database MySQL, administrasi sistem informasi kampus, manajemen dokumen digital, dan troubleshooting perangkat IT.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Komunikasi Profesional</h3>
+                    <p>Belajar berkomunikasi efektif dengan atasan, rekan kerja, dan dosen. Mampu menyampaikan ide dan solusi teknis dengan bahasa yang mudah dipahami.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Etos Kerja & Profesionalisme</h3>
+                    <p>Memahami budaya kerja profesional, pentingnya disiplin waktu, tanggung jawab, dan integritas dalam menyelesaikan tugas.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Problem Solving</h3>
+                    <p>Mengasah kemampuan analisis dalam mengidentifikasi masalah sistem, mencari akar permasalahan, dan menemukan solusi yang efektif dan efisien.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Manajemen Waktu</h3>
+                    <p>Belajar memprioritaskan tugas, bekerja dengan deadline, dan membagi waktu antara pekerjaan proyek dan tugas administratif harian.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3>Jaringan Profesional</h3>
+                    <p>Membangun relasi dengan praktisi industri, dosen, dan staf kampus. Mendapatkan koneksi yang bermanfaat untuk pengembangan karir.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>Portofolio & CV</h3>
+                    <p>Memiliki portofolio proyek nyata dan pengalaman kerja yang dapat ditambahkan ke CV, meningkatkan daya saing di dunia kerja.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Sertifikat & Rekomendasi</h3>
+                    <p>Memperoleh sertifikat PKL dan surat rekomendasi dari supervisor yang dapat digunakan untuk melamar pekerjaan atau melanjutkan pendidikan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Manfaat Kunjungan Industri Section -->
+    <section id="industrial" class="industrial-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Manfaat Kunjungan Industri</h2>
+                <p>Wawasan dan pengalaman dari kunjungan ke PT Telkom Satelit Indonesia (Telkomsat)</p>
+            </div>
+            
+            <div class="industrial-header">
+                <h3>PT Telkom Satelit Indonesia</h3>
+                <p><i class="fas fa-map-marker-alt" style="color: var(--accent);"></i> Jl. Telekomunikasi No. 1, Bogor | 15 November 2025</p>
+            </div>
+            
+            <div class="industrial-grid">
+                <div class="industrial-item">
+                    <i class="fas fa-satellite"></i>
+                    <h4>Teknologi Satelit Merah Putih</h4>
+                    <p>Mempelajari infrastruktur satelit generasi terbaru, proses peluncuran, dan peran satelit dalam konektivitas nasional hingga ke daerah 3T.</p>
+                </div>
+                
+                <div class="industrial-item">
+                    <i class="fas fa-network-wired"></i>
+                    <h4>Network Operations Center (NOC)</h4>
+                    <p>Melihat langsung pusat kendali yang memonitor ribuan titik akses internet di seluruh Indonesia dengan sistem real-time monitoring.</p>
+                </div>
+                
+                <div class="industrial-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Keamanan Siber Satelit</h4>
+                    <p>Memahami sistem keamanan berlapis untuk melindungi infrastruktur satelit dari serangan siber dan ancaman keamanan digital.</p>
+                </div>
+                
+                <div class="industrial-item">
+                    <i class="fas fa-broadcast-tower"></i>
+                    <h4>Teknologi VSAT</h4>
+                    <p>Praktik konfigurasi perangkat VSAT (Very Small Aperture Terminal) dan pemahaman tentang komunikasi data dua arah via satelit.</p>
+                </div>
+                
+                <div class="industrial-item">
+                    <i class="fas fa-users-cog"></i>
+                    <h4>Manajemen Proyek Telekomunikasi</h4>
+                    <p>Belajar siklus proyek instalasi jaringan satelit dari tahap survei, instalasi, uji coba, hingga maintenance berkala.</p>
+                </div>
+                
+                <div class="industrial-item">
+                    <i class="fas fa-trophy"></i>
+                    <h4>Insight Karir Industri</h4>
+                    <p>Mendapatkan gambaran karir di bidang telekomunikasi, kompetensi teknis yang dibutuhkan, dan peluang magang di Telkomsat.</p>
+                </div>
+                
+                <div class="industrial-item">
+                    <i class="fas fa-5g"></i>
+                    <h4>Integrasi 5G & Satelit</h4>
+                    <p>Mengenal inovasi terbaru integrasi teknologi satelit dengan jaringan 5G untuk mendukung transformasi digital Indonesia.</p>
+                </div>
+                
+                <div class="industrial-item">
+                    <i class="fas fa-handshake"></i>
+                    <h4>Soft Skills Profesional</h4>
+                    <p>Belajar etika kunjungan industri, cara berinteraksi dengan praktisi, dan membangun kesan profesional di perusahaan besar.</p>
+                </div>
+                
+                <div class="industrial-item">
+                    <i class="fas fa-globe-asia"></i>
+                    <h4>Konektivitas Nasional</h4>
+                    <p>Memahami peran strategis Telkomsat dalam mewujudkan Indonesia Digital Nation dan pemerataan akses internet.</p>
+                </div>
+                
+                <div class="industrial-item">
+                    <i class="fas fa-microchip"></i>
+                    <h4>Inovasi Teknologi</h4>
+                    <p>Melihat demonstrasi teknologi satelit High Throughput Satellite (HTS) dengan kapasitas bandwidth yang sangat besar.</p>
+                </div>
+            </div>
+            
+            <div class="reflection-box">
+                <i class="fas fa-quote-right"></i>
+                <h4>Refleksi Pribadi</h4>
+                <p>"Kunjungan ke Telkomsat membuka mata saya bahwa di balik kemudahan internet yang kita nikmati sehari-hari, ada infrastruktur canggih dan tim profesional yang bekerja tanpa henti. Saya semakin termotivasi untuk mendalami bidang jaringan dan telekomunikasi. Pengalaman ini juga mengajarkan bahwa inovasi teknologi harus diiringi dengan keandalan dan keamanan sistem."</p>
+                <p style="margin-top: 20px; color: var(--accent); font-weight: 600;">— Shifa Maharani, XII TKJ</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Kontak Saya</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <p>shifa.maharani@smk-alhadid.sch.id</p>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <p>+62 812-3456-7890</p>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>Cileungsi, Bogor, Indonesia</p>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="https://instagram.com" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="https://linkedin.com" target="_blank" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://github.com/shifamaharani-5/raniweb" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Lokasi PKL</h3>
+                    <p><strong>Politeknik Bisnis Digital Indonesia</strong></p>
+                    <p>Gedung Digital Hub Lt. 8</p>
+                    <p>Jl. Teknologi No. 10, BSD City</p>
+                    <p>Tangerang Selatan, Banten 15310</p>
+                    <p>Telp: (021) 1234-5678</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Sekolah</h3>
+                    <p><strong>SMK Al-Hadid Cileungsi</strong></p>
+                    <p>Jurusan Teknik Komputer Jaringan</p>
+                    <p>Kelas XII TKJ</p>
+                    <p>Jl. Raya Cileungsi No. 45</p>
+                    <p>Bogor, Jawa Barat 16820</p>
+                    <p>Telp: (021) 9876-5432</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Laporan PKL & Kunjungan Industri | Shifa Maharani | XII TKJ SMK Al-Hadid Cileungsi</p>
+                <p style="margin-top: 10px; font-size: 0.85rem;">Dibuat dengan <i class="fas fa-heart"></i> untuk dokumentasi tugas akhir PKL</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active nav link
+                    document.querySelectorAll('.nav-links a').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(10, 10, 10, 0.98)';
+                navbar.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.5)';
+                navbar.style.borderBottom = '1px solid rgba(187, 134, 252, 0.3)';
+            } else {
+                navbar.style.background = 'rgba(10, 10, 10, 0.95)';
+                navbar.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.3)';
+                navbar.style.borderBottom = '1px solid rgba(187, 134, 252, 0.2)';
+            }
+            
+            // Update active nav link based on scroll position
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Intersection Observer untuk animasi
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (!entry.target.classList.contains('animated')) {
+                        if (entry.target.classList.contains('about-content')) {
+                            entry.target.style.animation = 'slideInLeft 1s ease forwards';
+                            entry.target.classList.add('animated');
+                        } else if (entry.target.classList.contains('benefit-card')) {
+                            entry.target.classList.add('animated');
+                            entry.target.style.opacity = '1';
+                        } else if (entry.target.classList.contains('gallery-item')) {
+                            entry.target.classList.add('animated');
+                        } else if (entry.target.classList.contains('pkl-details')) {
+                            entry.target.style.animation = 'slideInRight 1s ease forwards';
+                            entry.target.classList.add('animated');
+                        } else if (entry.target.classList.contains('industrial-item')) {
+                            entry.target.classList.add('animated');
+                        }
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements
+        document.querySelectorAll('.about-content').forEach(el => observer.observe(el));
+        document.querySelectorAll('.benefit-card').forEach(el => observer.observe(el));
+        document.querySelectorAll('.gallery-item').forEach(el => observer.observe(el));
+        document.querySelectorAll('.industrial-item').forEach(el => observer.observe(el));
+        document.querySelector('.pkl-details') && observer.observe(document.querySelector('.pkl-details'));
+
+        // Gallery image modal
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const imgSrc = this.querySelector('img').getAttribute('src');
+                const imgAlt = this.querySelector('img').getAttribute('alt');
+                
+                const modal = document.createElement('div');
+                modal.style.position = 'fixed';
+                modal.style.top = '0';
+                modal.style.left = '0';
+                modal.style.width = '100%';
+                modal.style.height = '100%';
+                modal.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
+                modal.style.display = 'flex';
+                modal.style.justifyContent = 'center';
+                modal.style.alignItems = 'center';
+                modal.style.zIndex = '2000';
+                modal.style.opacity = '0';
+                modal.style.transition = 'opacity 0.3s ease';
+                modal.style.backdropFilter = 'blur(5px)';
+                
+                const modalImg = document.createElement('img');
+                modalImg.src = imgSrc;
+                modalImg.alt = imgAlt;
+                modalImg.style.maxWidth = '90%';
+                modalImg.style.maxHeight = '90%';
+                modalImg.style.borderRadius = '15px';
+                modalImg.style.transform = 'scale(0.9)';
+                modalImg.style.transition = 'transform 0.3s ease';
+                modalImg.style.border = '3px solid var(--primary)';
+                modalImg.style.boxShadow = '0 0 40px rgba(187, 134, 252, 0.3)';
+                
+                const closeBtn = document.createElement('div');
+                closeBtn.innerHTML = '&times;';
+                closeBtn.style.position = 'absolute';
+                closeBtn.style.top = '30px';
+                closeBtn.style.right = '40px';
+                closeBtn.style.color = 'white';
+                closeBtn.style.fontSize = '50px';
+                closeBtn.style.cursor = 'pointer';
+                closeBtn.style.zIndex = '2001';
+                closeBtn.style.transition = 'all 0.3s ease';
+                closeBtn.style.width = '50px';
+                closeBtn.style.height = '50px';
+                closeBtn.style.display = 'flex';
+                closeBtn.style.alignItems = 'center';
+                closeBtn.style.justifyContent = 'center';
+                closeBtn.style.borderRadius = '50%';
+                closeBtn.style.background = 'rgba(187, 134, 252, 0.2)';
+                closeBtn.style.border = '1px solid var(--primary)';
+                
+                closeBtn.onmouseover = function() {
+                    this.style.background = 'var(--accent)';
+                    this.style.borderColor = 'var(--accent)';
+                    this.style.transform = 'scale(1.1)';
+                };
+                
+                closeBtn.onmouseout = function() {
+                    this.style.background = 'rgba(187, 134, 252, 0.2)';
+                    this.style.borderColor = 'var(--primary)';
+                    this.style.transform = 'scale(1)';
+                };
+                
+                modal.appendChild(modalImg);
+                modal.appendChild(closeBtn);
+                document.body.appendChild(modal);
+                
+                // Trigger animation
+                setTimeout(() => {
+                    modal.style.opacity = '1';
+                    modalImg.style.transform = 'scale(1)';
+                }, 10);
+                
+                // Close modal
+                closeBtn.addEventListener('click', function() {
+                    modal.style.opacity = '0';
+                    modalImg.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        document.body.removeChild(modal);
+                    }, 300);
+                });
+                
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        modal.style.opacity = '0';
+                        modalImg.style.transform = 'scale(0.9)';
+                        setTimeout(() => {
+                            document.body.removeChild(modal);
+                        }, 300);
+                    }
+                });
+            });
+        });
+
+        // Initialize with Home as active
+        document.querySelector('.nav-links a[href="#home"]').classList.add('active');
+        
+        // Pastikan semua elemen visible
+        window.addEventListener('load', function() {
+            document.querySelectorAll('.gallery-item, .benefit-card, .industrial-item').forEach(item => {
+                item.style.opacity = '1';
+            });
+            
+            // Tambahkan efek loading
+            document.body.style.opacity = '1';
+        });
+    </script>
+</body>
+</html>

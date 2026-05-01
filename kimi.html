@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PORTOFOLIO | CYBER-AI DEVELOPER</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-green: #00ff41;
+            --neon-blue: #00d4ff;
+            --neon-purple: #bf00ff;
+            --dark-bg: #0a0a0a;
+            --darker-bg: #050505;
+            --grid-color: rgba(0, 255, 65, 0.1);
+        }
+
+        body {
+            background-color: var(--darker-bg);
+            color: #e0e0e0;
+            font-family: 'JetBrains Mono', monospace;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        /* Matrix Rain Background */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+        }
+
+        /* Neural Network Particles */
+        #neural-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.3;
+        }
+
+        /* Scanline Effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                transparent 50%,
+                rgba(0, 0, 0, 0.1) 50%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: scanline 8s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(10px); }
+        }
+
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+            animation: glitch-skew 1s infinite;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--neon-purple);
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 var(--neon-blue);
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(10px, 9999px, 85px, 0); }
+            20% { clip: rect(63px, 9999px, 130px, 0); }
+            40% { clip: rect(25px, 9999px, 15px, 0); }
+            60% { clip: rect(88px, 9999px, 95px, 0); }
+            80% { clip: rect(45px, 9999px, 60px, 0); }
+            100% { clip: rect(15px, 9999px, 110px, 0); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(65px, 9999px, 100px, 0); }
+            20% { clip: rect(20px, 9999px, 45px, 0); }
+            40% { clip: rect(90px, 9999px, 120px, 0); }
+            60% { clip: rect(35px, 9999px, 75px, 0); }
+            80% { clip: rect(10px, 9999px, 50px, 0); }
+            100% { clip: rect(55px, 9999px, 90px, 0); }
+        }
+
+        @keyframes glitch-skew {
+            0% { transform: skew(0deg); }
+            10% { transform: skew(-2deg); }
+            20% { transform: skew(2deg); }
+            30% { transform: skew(0deg); }
+            100% { transform: skew(0deg); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            background: rgba(5, 5, 5, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--neon-green);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+            letter-spacing: 3px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #888;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .nav-links a::before {
+            content: '>';
+            margin-right: 5px;
+            opacity: 0;
+            transition: all 0.3s;
+            color: var(--neon-green);
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .nav-links a:hover::before {
+            opacity: 1;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 50px;
+            position: relative;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            max-width: 1400px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .typing-text {
+            color: var(--neon-green);
+            border-right: 3px solid var(--neon-green);
+            animation: blink 0.75s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .terminal-window {
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid var(--neon-green);
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 0.9rem;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+        }
+
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--neon-green);
+            opacity: 0.5;
+        }
+
+        .terminal-content {
+            color: var(--neon-green);
+            line-height: 1.8;
+        }
+
+        .command {
+            color: var(--neon-blue);
+        }
+
+        .output {
+            color: #888;
+            margin-left: 20px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background: var(--neon-green);
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        /* Profile Image Container */
+        .profile-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-frame {
+            width: 400px;
+            height: 400px;
+            position: relative;
+            border: 2px solid var(--neon-green);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 0 50px rgba(0, 255, 65, 0.3),
+                inset 0 0 50px rgba(0, 255, 65, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .profile-frame::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--neon-green), var(--neon-blue), var(--neon-purple), var(--neon-green));
+            border-radius: 20px;
+            z-index: -1;
+            animation: rotate 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .profile-frame:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.2);
+            transition: all 0.5s;
+        }
+
+        .profile-frame:hover .profile-img {
+            filter: grayscale(0%) contrast(1.1);
+        }
+
+        .corner {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--neon-green);
+        }
+
+        .corner-tl { top: -10px; left: -10px; border-right: none; border-bottom: none; }
+        .corner-tr { top: -10px; right: -10px; border-left: none; border-bottom: none; }
+        .corner-bl { bottom: -10px; left: -10px; border-right: none; border-top: none; }
+        .corner-br { bottom: -10px; right: -10px; border-left: none; border-top: none; }
+
+        /* Skills Section */
+        .skills-section {
+            padding: 100px 50px;
+            background: linear-gradient(180deg, transparent, rgba(0, 255, 65, 0.05), transparent);
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--neon-green);
+            text-shadow: 0 0 20px var(--neon-green);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .skill-card {
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            transform-style: preserve-3d;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .skill-card:hover::before {
+            left: 100%;
+        }
+
+        .skill-card:hover {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .skill-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--neon-green);
+        }
+
+        .skill-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .skill-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+            border-radius: 5px;
+            position: relative;
+            width: 0;
+            transition: width 1.5s ease-out;
+        }
+
+        .skill-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 30px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5));
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-30px); }
+            100% { transform: translateX(30px); }
+        }
+
+        .skill-percent {
+            position: absolute;
+            right: 0;
+            top: -25px;
+            color: var(--neon-green);
+            font-size: 0.9rem;
+        }
+
+        /* Certificates Section */
+        .certificates-section {
+            padding: 100px 50px;
+        }
+
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .cert-card {
+            position: relative;
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid var(--neon-blue);
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cert-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
+            border-color: var(--neon-purple);
+        }
+
+        .cert-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            filter: brightness(0.8);
+            transition: all 0.3s;
+        }
+
+        .cert-card:hover .cert-image {
+            filter: brightness(1);
+        }
+
+        .cert-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+
+        .cert-card:hover .cert-overlay {
+            transform: translateY(0);
+        }
+
+        .cert-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-blue);
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .cert-issuer {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .cert-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--neon-green);
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 0 20px var(--neon-green);
+        }
+
+        /* Modal for Certificate View */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            border: 2px solid var(--neon-green);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 255, 65, 0.5);
+        }
+
+        .modal-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 3rem;
+            color: var(--neon-green);
+            cursor: pointer;
+            z-index: 10001;
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .modal-close:hover {
+            color: var(--neon-purple);
+        }
+
+        /* Hacker Terminal Section */
+        .hacker-section {
+            padding: 100px 50px;
+            background: rgba(0, 20, 0, 0.3);
+        }
+
+        .hacker-terminal {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #000;
+            border: 2px solid var(--neon-green);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 255, 65, 0.2);
+        }
+
+        .hacker-header {
+            background: rgba(0, 255, 65, 0.1);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--neon-green);
+        }
+
+        .hacker-title {
+            color: var(--neon-green);
+            font-family: 'Orbitron', sans-serif;
+            margin-left: 10px;
+        }
+
+        .hacker-body {
+            padding: 30px;
+            height: 400px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .hacker-line {
+            margin-bottom: 10px;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .hacker-line.success { color: var(--neon-green); }
+        .hacker-line.info { color: var(--neon-blue); }
+        .hacker-line.warning { color: #ffaa00; }
+        .hacker-line.error { color: #ff0040; }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Footer */
+        footer {
+            padding: 50px;
+            text-align: center;
+            border-top: 1px solid rgba(0, 255, 65, 0.3);
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--neon-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neon-green);
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--neon-green);
+            transition: left 0.3s;
+            z-index: -1;
+        }
+
+        .social-links a:hover::before {
+            left: 0;
+        }
+
+        .social-links a:hover {
+            color: #000;
+            box-shadow: 0 0 30px var(--neon-green);
+        }
+
+        .footer-text {
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .profile-frame {
+                width: 300px;
+                height: 300px;
+                margin: 0 auto;
+            }
+            
+            nav {
+                padding: 15px 20px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+            }
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 0.5s;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--neon-green);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-blue);
+        }
+
+        /* Binary Background Animation */
+        .binary-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            font-size: 14px;
+            color: var(--neon-green);
+            z-index: -3;
+            overflow: hidden;
+            white-space: pre;
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-text">INITIALIZING SYSTEM...</div>
+    </div>
+
+    <!-- Effects -->
+    <div class="scanlines"></div>
+    <canvas id="matrix-canvas"></canvas>
+    <canvas id="neural-canvas"></canvas>
+    <div class="binary-bg" id="binary-bg"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">&lt;/&gt; CYBER_DEV</div>
+        <ul class="nav-links">
+            <li><a href="#home">HOME</a></li>
+            <li><a href="#skills">SKILLS</a></li>
+            <li><a href="#certs">CERTIFICATES</a></li>
+            <li><a href="#terminal">TERMINAL</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="glitch" data-text="CYBER-AI DEVELOPER">CYBER-AI DEVELOPER</h1>
+                <p>
+                    <span class="typing-text" id="typing"></span><span class="cursor"></span>
+                </p>
+                <p>Menggabungkan kekuatan ethical hacking, artificial intelligence, dan modern web development untuk menciptakan solusi digital yang inovatif dan aman.</p>
+                
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="terminal-btn"></div>
+                        <div class="terminal-btn"></div>
+                        <div class="terminal-btn"></div>
+                    </div>
+                    <div class="terminal-content" id="terminal-text">
+                        <div><span class="command">$ whoami</span></div>
+                        <div class="output">cyber_ai_developer</div>
+                        <div><span class="command">$ cat skills.txt</span></div>
+                        <div class="output">[AI/ML, Web Security, Full Stack, Ethical Hacking]</div>
+                        <div><span class="command">$ status</span></div>
+                        <div class="output">Available for hire // Open to collaborate</div>
+                        <div><span class="command">$ _</span><span class="cursor"></span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="profile-container">
+                <div class="profile-frame">
+                    <div class="corner corner-tl"></div>
+                    <div class="corner corner-tr"></div>
+                    <div class="corner corner-bl"></div>
+                    <div class="corner corner-br"></div>
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop" alt="Profile" class="profile-img" id="profile-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills-section" id="skills">
+        <h2 class="section-title glitch" data-text="SYSTEM_CAPABILITIES">SYSTEM_CAPABILITIES</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <div class="skill-icon">🤖</div>
+                <div class="skill-name">AI / MACHINE LEARNING</div>
+                <p style="color: #888; margin-bottom: 15px; font-size: 0.9rem;">TensorFlow, PyTorch, Neural Networks, NLP, Computer Vision</p>
+                <div class="skill-bar">
+                    <div class="skill-progress" data-width="95%">
+                        <span class="skill-percent">95%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-icon">🌐</div>
+                <div class="skill-name">WEB DEVELOPMENT</div>
+                <p style="color: #888; margin-bottom: 15px; font-size: 0.9rem;">React, Node.js, Python, Database Design, API Development</p>
+                <div class="skill-bar">
+                    <div class="skill-progress" data-width="90%">
+                        <span class="skill-percent">90%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-icon">🔒</div>
+                <div class="skill-name">CYBER SECURITY</div>
+                <p style="color: #888; margin-bottom: 15px; font-size: 0.9rem;">Penetration Testing, Vulnerability Assessment, Network Security</p>
+                <div class="skill-bar">
+                    <div class="skill-progress" data-width="88%">
+                        <span class="skill-percent">88%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-icon">⚡</div>
+                <div class="skill-name">ETHICAL HACKING</div>
+                <p style="color: #888; margin-bottom: 15px; font-size: 0.9rem;">Kali Linux, Metasploit, OWASP, Social Engineering Defense</p>
+                <div class="skill-bar">
+                    <div class="skill-progress" data-width="85%">
+                        <span class="skill-percent">85%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-icon">☁️</div>
+                <div class="skill-name">CLOUD & DEVOPS</div>
+                <p style="color: #888; margin-bottom: 15px; font-size: 0.9rem;">AWS, Docker, Kubernetes, CI/CD, Infrastructure as Code</p>
+                <div class="skill-bar">
+                    <div class="skill-progress" data-width="82%">
+                        <span class="skill-percent">82%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="skill-card">
+                <div class="skill-icon">🔗</div>
+                <div class="skill-name">BLOCKCHAIN</div>
+                <p style="color: #888; margin-bottom: 15px; font-size: 0.9rem;">Smart Contracts, Web3, Cryptography, DeFi Protocols</p>
+                <div class="skill-bar">
+                    <div class="skill-progress" data-width="78%">
+                        <span class="skill-percent">78%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificates Section -->
+    <section class="certificates-section" id="certs">
+        <h2 class="section-title glitch" data-text="VERIFIED_CREDENTIALS">VERIFIED_CREDENTIALS</h2>
+        <div class="cert-grid">
+            <div class="cert-card" onclick="openModal(this)">
+                <span class="cert-badge">AI</span>
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&h=400&fit=crop" alt="AI Certificate" class="cert-image">
+                <div class="cert-overlay">
+                    <div class="cert-title">Machine Learning Specialization</div>
+                    <div class="cert-issuer">Stanford University - Coursera</div>
+                </div>
+            </div>
+
+            <div class="cert-card" onclick="openModal(this)">
+                <span class="cert-badge">SECURITY</span>
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=400&fit=crop" alt="Security Certificate" class="cert-image">
+                <div class="cert-overlay">
+                    <div class="cert-title">Certified Ethical Hacker (CEH)</div>
+                    <div class="cert-issuer">EC-Council</div>
+                </div>
+            </div>
+
+            <div class="cert-card" onclick="openModal(this)">
+                <span class="cert-badge">WEB</span>
+                <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&h=400&fit=crop" alt="Web Certificate" class="cert-image">
+                <div class="cert-overlay">
+                    <div class="cert-title">Full Stack Web Development</div>
+                    <div class="cert-issuer">Meta (Facebook)</div>
+                </div>
+            </div>
+
+            <div class="cert-card" onclick="openModal(this)">
+                <span class="cert-badge">CLOUD</span>
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop" alt="Cloud Certificate" class="cert-image">
+                <div class="cert-overlay">
+                    <div class="cert-title">AWS Solutions Architect</div>
+                    <div class="cert-issuer">Amazon Web Services</div>
+                </div>
+            </div>
+
+            <div class="cert-card" onclick="openModal(this)">
+                <span class="cert-badge">DATA</span>
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop" alt="Data Certificate" class="cert-image">
+                <div class="cert-overlay">
+                    <div class="cert-title">Data Science Professional</div>
+                    <div class="cert-issuer">IBM</div>
+                </div>
+            </div>
+
+            <div class="cert-card" onclick="openModal(this)">
+                <span class="cert-badge">SECURITY+</span>
+                <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&h=400&fit=crop" alt="Security+ Certificate" class="cert-image">
+                <div class="cert-overlay">
+                    <div class="cert-title">CompTIA Security+</div>
+                    <div class="cert-issuer">CompTIA</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hacker Terminal Section -->
+    <section class="hacker-section" id="terminal">
+        <h2 class="section-title glitch" data-text="SYSTEM_LOGS">SYSTEM_LOGS</h2>
+        <div class="hacker-terminal">
+            <div class="hacker-header">
+                <div class="terminal-btn"></div>
+                <div class="terminal-btn"></div>
+                <div class="terminal-btn"></div>
+                <span class="hacker-title">root@cyber-dev:~# ./access_logs.sh</span>
+            </div>
+            <div class="hacker-body" id="hacker-logs">
+                <!-- Logs will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="social-links">
+            <a href="#" title="GitHub">GH</a>
+            <a href="#" title="LinkedIn">IN</a>
+            <a href="#" title="Twitter">TW</a>
+            <a href="#" title="Email">@</a>
+        </div>
+        <p class="footer-text">
+            <span style="color: var(--neon-green);">&lt;/&gt;</span> 
+            with 
+            <span style="color: #ff0040;">♥</span> 
+            and 
+            <span style="color: var(--neon-blue);">AI</span> 
+            | © 2026 CYBER-AI DEVELOPER
+        </p>
+    </footer>
+
+    <!-- Modal for Certificate -->
+    <div class="modal" id="certModal" onclick="closeModal()">
+        <span class="modal-close">&times;</span>
+        <div class="modal-content">
+            <img src="" alt="Certificate" class="modal-img" id="modalImg">
+        </div>
+    </div>
+
+    <script>
+        // Loading Screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1500);
+        });
+
+        // Matrix Rain Effect
+        const matrixCanvas = document.getElementById('matrix-canvas');
+        const matrixCtx = matrixCanvas.getContext('2d');
+
+        matrixCanvas.width = window.innerWidth;
+        matrixCanvas.height = window.innerHeight;
+
+        const matrixChars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const matrixArray = matrixChars.split('');
+        const fontSize = 14;
+        const columns = matrixCanvas.width / fontSize;
+        const drops = [];
+
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * -100;
+        }
+
+        function drawMatrix() {
+            matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+
+            matrixCtx.fillStyle = '#00ff41';
+            matrixCtx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrixArray[Math.floor(Math.random() * matrixArray.length)];
+                matrixCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 35);
+
+        // Neural Network Particles
+        const neuralCanvas = document.getElementById('neural-canvas');
+        const neuralCtx = neuralCanvas.getContext('2d');
+
+        neuralCanvas.width = window.innerWidth;
+        neuralCanvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = 80;
+        const connectionDistance = 150;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * neuralCanvas.width;
+                this.y = Math.random() * neuralCanvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 3 + 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > neuralCanvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > neuralCanvas.height) this.vy *= -1;
+            }
+
+            draw() {
+                neuralCtx.fillStyle = '#00d4ff';
+                neuralCtx.beginPath();
+                neuralCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                neuralCtx.fill();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateNeural() {
+            neuralCtx.clearRect(0, 0, neuralCanvas.width, neuralCanvas.height);
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < connectionDistance) {
+                        neuralCtx.beginPath();
+                        neuralCtx.strokeStyle = `rgba(0, 212, 255, ${1 - distance / connectionDistance})`;
+                        neuralCtx.lineWidth = 1;
+                        neuralCtx.moveTo(particles[i].x, particles[i].y);
+                        neuralCtx.lineTo(particles[j].x, particles[j].y);
+                        neuralCtx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateNeural);
+        }
+
+        animateNeural();
+
+        // Typing Effect
+        const texts = [
+            'Building secure AI systems...',
+            'Developing neural networks...',
+            'Penetrating vulnerabilities...',
+            'Creating web solutions...'
+        ];
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById('typing');
+
+        function type() {
+            const currentText = texts[textIndex];
+            
+            if (isDeleting) {
+                typingElement.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 50 : 100;
+
+            if (!isDeleting && charIndex === currentText.length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(type, typeSpeed);
+        }
+
+        type();
+
+        // Skills Animation on Scroll
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const progressBar = entry.target.querySelector('.skill-progress');
+                    const width = progressBar.getAttribute('data-width');
+                    progressBar.style.width = width;
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.skill-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Hacker Terminal Logs
+        const logs = [
+            { text: '[SYSTEM] Initializing secure connection...', type: 'info', delay: 0 },
+            { text: '[SUCCESS] Encryption keys generated (RSA-4096)', type: 'success', delay: 500 },
+            { text: '[INFO] Scanning network ports...', type: 'info', delay: 1000 },
+            { text: '[WARNING] Port 22 (SSH) exposed to public', type: 'warning', delay: 1500 },
+            { text: '[SUCCESS] Firewall rules updated', type: 'success', delay: 2000 },
+            { text: '[INFO] Running AI model inference...', type: 'info', delay: 2500 },
+            { text: '[SUCCESS] Neural network accuracy: 98.7%', type: 'success', delay: 3000 },
+            { text: '[INFO] Deploying web application...', type: 'info', delay: 3500 },
+            { text: '[SUCCESS] CI/CD pipeline completed', type: 'success', delay: 4000 },
+            { text: '[WARNING] High memory usage detected', type: 'warning', delay: 4500 },
+            { text: '[INFO] Optimizing database queries...', type: 'info', delay: 5000 },
+            { text: '[SUCCESS] Query performance improved by 340%', type: 'success', delay: 5500 },
+            { text: '[ERROR] Failed login attempt from 192.168.1.100', type: 'error', delay: 6000 },
+            { text: '[INFO] Blocking suspicious IP address...', type: 'info', delay: 6500 },
+            { text: '[SUCCESS] Security breach prevented', type: 'success', delay: 7000 },
+            { text: '[SYSTEM] All systems operational ✓', type: 'success', delay: 7500 }
+        ];
+
+        const logsContainer = document.getElementById('hacker-logs');
+
+        function addLog(log) {
+            const div = document.createElement('div');
+            div.className = `hacker-line ${log.type}`;
+            div.textContent = `> ${log.text}`;
+            div.style.animationDelay = '0s';
+            logsContainer.appendChild(div);
+            logsContainer.scrollTop = logsContainer.scrollHeight;
+        }
+
+        let logIndex = 0;
+        function playLogs() {
+            if (logIndex < logs.length) {
+                addLog(logs[logIndex]);
+                const nextDelay = logs[logIndex + 1] ? logs[logIndex + 1].delay - logs[logIndex].delay : 1000;
+                logIndex++;
+                setTimeout(playLogs, nextDelay);
+            } else {
+                setTimeout(() => {
+                    logsContainer.innerHTML = '';
+                    logIndex = 0;
+                    playLogs();
+                }, 5000);
+            }
+        }
+
+        // Start logs when terminal is in view
+        const terminalObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && logIndex === 0) {
+                    playLogs();
+                }
+            });
+        }, { threshold: 0.3 });
+
+        terminalObserver.observe(document.getElementById('terminal'));
+
+        // Certificate Modal
+        function openModal(card) {
+            const modal = document.getElementById('certModal');
+            const modalImg = document.getElementById('modalImg');
+            const img = card.querySelector('.cert-image');
+            modalImg.src = img.src;
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('certModal').classList.remove('active');
+        }
+
+        // Binary Background
+        function generateBinary() {
+            const binaryBg = document.getElementById('binary-bg');
+            let binary = '';
+            for (let i = 0; i < 3000; i++) {
+                binary += Math.random() > 0.5 ? '1' : '0';
+                if (i % 100 === 0) binary += '\n';
+            }
+            binaryBg.textContent = binary;
+        }
+
+        generateBinary();
+        setInterval(generateBinary, 100);
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Parallax Effect for Profile
+        document.addEventListener('mousemove', (e) => {
+            const profile = document.querySelector('.profile-frame');
+            const x = (window.innerWidth - e.pageX) / 50;
+            const y = (window.innerHeight - e.pageY) / 50;
+            profile.style.transform = `translate(${x}px, ${y}px)`;
+        });
+
+        // Glitch Effect on Hover for Section Titles
+        document.querySelectorAll('.section-title').forEach(title => {
+            title.addEventListener('mouseenter', function() {
+                this.style.animation = 'glitch-skew 0.3s infinite';
+            });
+            title.addEventListener('mouseleave', function() {
+                this.style.animation = 'none';
+            });
+        });
+
+        // Resize Handler
+        window.addEventListener('resize', () => {
+            matrixCanvas.width = window.innerWidth;
+            matrixCanvas.height = window.innerHeight;
+            neuralCanvas.width = window.innerWidth;
+            neuralCanvas.height = window.innerHeight;
+        });
+
+        // Console Easter Egg
+        console.log('%c⚠️ SYSTEM BREACH DETECTED ⚠️', 'color: #ff0040; font-size: 24px; font-weight: bold;');
+        console.log('%cJust kidding! Welcome to my portfolio.', 'color: #00ff41; font-size: 16px;');
+        console.log('%cTry typing: help()', 'color: #00d4ff; font-size: 14px;');
+
+        window.help = function() {
+            console.log('%cAvailable Commands:', 'color: #00ff41; font-weight: bold;');
+            console.log('%c- about(): Learn more about me', 'color: #888');
+            console.log('%c- skills(): View my technical skills', 'color: #888');
+            console.log('%c- contact(): Get in touch', 'color: #888');
+        };
+
+        window.about = function() {
+            console.log('%cCyber-AI Developer passionate about creating secure, intelligent systems.', 'color: #00d4ff');
+        };
+
+        window.skills = function() {
+            console.log('%cAI/ML: 95% | Web Dev: 90% | Cyber Security: 88% | Ethical Hacking: 85%', 'color: #bf00ff');
+        };
+
+        window.contact = function() {
+            console.log('%cEmail: cyberdev@example.com | GitHub: @cyberdev', 'color: #00ff41');
+        };
+    </script>
+</body>
+</html>

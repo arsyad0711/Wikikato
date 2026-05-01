@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontrol Bintang dengan Tangan</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/hand-pose-detection"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            text-align: center;
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ff00cc, #3333ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(255, 0, 204, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #aaa;
+        }
+        
+        #canvasContainer {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 150, 255, 0.3);
+        }
+        
+        #videoCanvas, #mainCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        #videoCanvas {
+            z-index: 1;
+            opacity: 0.7;
+        }
+        
+        #mainCanvas {
+            z-index: 2;
+        }
+        
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        button {
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #0066ff, #00ccff);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.4);
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 102, 255, 0.6);
+            background: linear-gradient(45deg, #0044cc, #0099cc);
+        }
+        
+        #shapeIndicator {
+            font-size: 1.3rem;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .instructions {
+            margin-top: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            text-align: left;
+        }
+        
+        .instructions h3 {
+            color: #00ccff;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ul {
+            list-style-type: none;
+            padding-left: 10px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .instructions li:before {
+            content: "✨";
+            position: absolute;
+            left: 0;
+        }
+        
+        .loading {
+            font-size: 1.5rem;
+            color: #00ccff;
+            margin: 20px 0;
+        }
+        
+        .finger-count {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ff00cc;
+            text-shadow: 0 0 10px rgba(255, 0, 204, 0.7);
+            margin: 10px 0;
+            height: 60px;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .subtitle { font-size: 1rem; }
+            #canvasContainer { 
+                width: 95%; 
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✨ Kontrol Bintang dengan Tangan ✨</h1>
+        <p class="subtitle">Gerakkan tangan Anda di depan kamera untuk mengontrol bintang-bintang</p>
+        
+        <div class="finger-count" id="fingerCount">0 jari terdeteksi</div>
+        <div id="shapeIndicator">Bentuk: Bintang Acak</div>
+        
+        <div id="canvasContainer">
+            <canvas id="videoCanvas"></canvas>
+            <canvas id="mainCanvas"></canvas>
+        </div>
+        
+        <div class="loading" id="loadingText">Menginisialisasi model AI... Harap tunggu</div>
+        
+        <div class="controls">
+            <button id="startBtn">Mulai Kamera</button>
+            <button id="resetBtn">Reset Bintang</button>
+            <button id="toggleVideoBtn">Sembunyikan Video</button>
+            <button id="fullscreenBtn">Layar Penuh</button>
+        </div>
+        
+        <div class="instructions">
+            <h3>Cara menggunakan:</h3>
+            <ul>
+                <li><strong>Angkat 1 jari</strong>: Bintang membentuk lingkaran</li>
+                <li><strong>Angkat 2 jari</strong>: Bintang membentuk hati (love)</li>
+                <li><strong>Angkat 3 jari</strong>: Bintang membentuk segitiga</li>
+                <li><strong>Angkat 4 jari</strong>: Bintang membentuk persegi</li>
+                <li><strong>Angkat 5 jari</strong>: Bintang membentuk spiral</li>
+                <li><strong>Kepalkan tangan</strong>: Bintang kembali acak</li>
+                <li><strong>Gerakkan tangan</strong>: Bintang mengikuti gerakan Anda</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Inisialisasi variabel global
+        let video;
+        let videoCanvas, mainCanvas;
+        let videoCtx, mainCtx;
+        let detector;
+        let isModelLoaded = false;
+        let isVideoOn = true;
+        let stars = [];
+        let animationId;
+        let lastGesture = '';
+        let isVideoReady = false;
+        
+        // Konfigurasi
+        const STAR_COUNT = 150;
+        const STAR_SPEED = 0.05;
+        const STAR_SIZE_MIN = 2;
+        const STAR_SIZE_MAX = 6;
+        const COLORS = ['#ffffff', '#ffcc00', '#00ccff', '#ff00cc', '#66ff66'];
+        
+        // Kelas Bintang
+        class Star {
+            constructor(canvasWidth, canvasHeight) {
+                this.x = Math.random() * canvasWidth;
+                this.y = Math.random() * canvasHeight;
+                this.size = Math.random() * (STAR_SIZE_MAX - STAR_SIZE_MIN) + STAR_SIZE_MIN;
+                this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+                this.speed = Math.random() * STAR_SPEED + STAR_SPEED * 0.5;
+                this.originalX = this.x;
+                this.originalY = this.y;
+                this.targetX = this.x;
+                this.targetY = this.y;
+                this.twinkle = Math.random() * Math.PI * 2;
+                this.twinkleSpeed = Math.random() * 0.05 + 0.02;
+            }
+            
+            // Update posisi bintang menuju target
+            update(targetX, targetY) {
+                // Interpolasi ke target
+                this.targetX = targetX;
+                this.targetY = targetY;
+                
+                this.x += (this.targetX - this.x) * this.speed;
+                this.y += (this.targetY - this.y) * this.speed;
+                
+                // Efek berkedip
+                this.twinkle += this.twinkleSpeed;
+                this.currentSize = this.size + Math.sin(this.twinkle) * 1.5;
+            }
+            
+            // Gambar bintang
+            draw(ctx) {
+                ctx.beginPath();
+                ctx.fillStyle = this.color;
+                
+                // Gambar bintang dengan 5 ujung
+                const spikes = 5;
+                const outerRadius = this.currentSize;
+                const innerRadius = this.currentSize * 0.5;
+                
+                for (let i = 0; i < spikes * 2; i++) {
+                    const radius = i % 2 === 0 ? outerRadius : innerRadius;
+                    const angle = (Math.PI * i) / spikes;
+                    const x = this.x + Math.cos(angle) * radius;
+                    const y = this.y + Math.sin(angle) * radius;
+                    
+                    if (i === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+                
+                ctx.closePath();
+                ctx.fill();
+                
+                // Efek glow
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.currentSize * 1.5, 0, Math.PI * 2);
+                const gradient = ctx.createRadialGradient(
+                    this.x, this.y, 0,
+                    this.x, this.y, this.currentSize * 3
+                );
+                gradient.addColorStop(0, this.color + '80');
+                gradient.addColorStop(1, 'transparent');
+                ctx.fillStyle = gradient;
+                ctx.fill();
+            }
+            
+            // Reset ke posisi acak
+            reset(canvasWidth, canvasHeight) {
+                this.x = Math.random() * canvasWidth;
+                this.y = Math.random() * canvasHeight;
+                this.originalX = this.x;
+                this.originalY = this.y;
+                this.targetX = this.x;
+                this.targetY = this.y;
+            }
+        }
+        
+        // Inisialisasi aplikasi
+        async function init() {
+            console.log("Memulai inisialisasi...");
+            
+            // Setup canvas
+            videoCanvas = document.getElementById('videoCanvas');
+            mainCanvas = document.getElementById('mainCanvas');
+            videoCtx = videoCanvas.getContext('2d');
+            mainCtx = mainCanvas.getContext('2d');
+            
+            // Setup ukuran canvas
+            updateCanvasSize();
+            window.addEventListener('resize', updateCanvasSize);
+            
+            // Inisialisasi bintang
+            initStars();
+            
+            // Setup kontrol
+            document.getElementById('startBtn').addEventListener('click', startCamera);
+            document.getElementById('resetBtn').addEventListener('click', resetStars);
+            document.getElementById('toggleVideoBtn').addEventListener('click', toggleVideo);
+            document.getElementById('fullscreenBtn').addEventListener('click', toggleFullscreen);
+            
+            // Load model handpose
+            await loadHandPoseModel();
+            
+            // Mulai animasi
+            animate();
+        }
+        
+        // Update ukuran canvas
+        function updateCanvasSize() {
+            const container = document.getElementById('canvasContainer');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            
+            videoCanvas.width = width;
+            videoCanvas.height = height;
+            mainCanvas.width = width;
+            mainCanvas.height = height;
+            
+            // Reset stars dengan ukuran baru
+            if (stars.length > 0) {
+                stars.forEach(star => {
+                    star.reset(width, height);
+                });
+            }
+        }
+        
+        // Inisialisasi bintang
+        function initStars() {
+            stars = [];
+            for (let i = 0; i < STAR_COUNT; i++) {
+                stars.push(new Star(mainCanvas.width, mainCanvas.height));
+            }
+        }
+        
+        // Reset bintang
+        function resetStars() {
+            initStars();
+        }
+        
+        // Load model HandPose
+        async function loadHandPoseModel() {
+            try {
+                const loadingText = document.getElementById('loadingText');
+                loadingText.textContent = "Memuat model AI...";
+                
+                // Set backend TensorFlow.js ke WebGL
+                await tf.setBackend('webgl');
+                await tf.ready();
+                
+                // Import handpose
+                const model = handPoseDetection.SupportedModels.MediaPipeHands;
+                const detectorConfig = {
+                    runtime: 'tfjs',
+                    modelType: 'full',
+                    maxHands: 1
+                };
+                
+                detector = await handPoseDetection.createDetector(model, detectorConfig);
+                isModelLoaded = true;
+                
+                loadingText.textContent = "Model AI berhasil dimuat! Tekan 'Mulai Kamera'";
+                console.log("Model HandPose berhasil dimuat");
+            } catch (error) {
+                console.error("Gagal memuat model:", error);
+                document.getElementById('loadingText').textContent = 
+                    "Gagal memuat model AI. Error: " + error.message;
+            }
+        }
+        
+        // Mulai kamera
+        async function startCamera() {
+            if (!isModelLoaded) {
+                alert("Model AI belum siap. Tunggu beberapa saat.");
+                return;
+            }
+            
+            try {
+                video = document.createElement('video');
+                video.width = 640;
+                video.height = 480;
+                
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: 'user',
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
+                    },
+                    audio: false
+                });
+                
+                video.srcObject = stream;
+                video.onloadedmetadata = () => {
+                    video.play();
+                    isVideoReady = true;
+                    console.log("Video siap dan diputar");
+                };
+                
+                document.getElementById('loadingText').style.display = 'none';
+                document.getElementById('startBtn').textContent = 'Kamera Aktif';
+                document.getElementById('startBtn').disabled = true;
+                
+                // Tunggu sebentar sebelum mulai deteksi
+                setTimeout(() => {
+                    detectHands();
+                }, 1000);
+                
+            } catch (error) {
+                console.error("Error mengakses kamera:", error);
+                alert("Tidak dapat mengakses kamera. Pastikan izin diberikan. Error: " + error.message);
+            }
+        }
+        
+        // Deteksi tangan
+        async function detectHands() {
+            if (!video || !detector || !isVideoReady) {
+                // Coba lagi nanti
+                setTimeout(detectHands, 100);
+                return;
+            }
+            
+            try {
+                // Periksa apakah video sudah siap
+                if (video.readyState < 2) {
+                    setTimeout(detectHands, 100);
+                    return;
+                }
+                
+                const predictions = await detector.estimateHands(video);
+                
+                // Gambar video ke canvas
+                if (isVideoOn) {
+                    videoCtx.clearRect(0, 0, videoCanvas.width, videoCanvas.height);
+                    // Skala video agar sesuai dengan canvas
+                    const scaleX = videoCanvas.width / video.width;
+                    const scaleY = videoCanvas.height / video.height;
+                    const scale = Math.min(scaleX, scaleY);
+                    const offsetX = (videoCanvas.width - video.width * scale) / 2;
+                    const offsetY = (videoCanvas.height - video.height * scale) / 2;
+                    
+                    videoCtx.save();
+                    videoCtx.translate(offsetX, offsetY);
+                    videoCtx.scale(scale, scale);
+                    videoCtx.drawImage(video, 0, 0, video.width, video.height);
+                    videoCtx.restore();
+                }
+                
+                // Proses prediksi tangan
+                if (predictions.length > 0) {
+                    const hand = predictions[0];
+                    processHandGesture(hand);
+                    drawHandLandmarks(hand);
+                } else {
+                    // Tidak ada tangan terdeteksi
+                    document.getElementById('fingerCount').textContent = "0 jari terdeteksi";
+                    lastGesture = '';
+                    
+                    // Reset bintang ke posisi acak
+                    for (let i = 0; i < stars.length; i++) {
+                        stars[i].targetX = Math.random() * mainCanvas.width;
+                        stars[i].targetY = Math.random() * mainCanvas.height;
+                    }
+                }
+            } catch (error) {
+                console.error("Error deteksi tangan:", error);
+                // Jangan tampilkan error texture size
+                if (!error.message.includes('texture size')) {
+                    console.error("Detail error:", error);
+                }
+            }
+            
+            // Loop deteksi
+            setTimeout(detectHands, 50);
+        }
+        
+        // Proses gesture tangan
+        function processHandGesture(hand) {
+            const landmarks = hand.keypoints;
+            const fingerTips = [4, 8, 12, 16, 20]; // Indeks ujung jari
+            const fingerBases = [2, 5, 9, 13, 17]; // Indeks pangkal jari
+            
+            let raisedFingers = 0;
+            
+            // Deteksi jari yang terangkat
+            for (let i = 0; i < fingerTips.length; i++) {
+                const tip = landmarks[fingerTips[i]];
+                const base = landmarks[fingerBases[i]];
+                
+                // Untuk ibu jari (i=0), logika berbeda
+                if (i === 0) {
+                    // Ibu jari: periksa posisi relatif terhadap pangkal
+                    if (tip.x < base.x - 0.05 * videoCanvas.width) {
+                        raisedFingers++;
+                    }
+                } else {
+                    // Jari lainnya: periksa apakah ujung di atas pangkal
+                    if (tip.y < base.y - 0.02 * videoCanvas.height) {
+                        raisedFingers++;
+                    }
+                }
+            }
+            
+            // Update tampilan jumlah jari
+            document.getElementById('fingerCount').textContent = 
+                `${raisedFingers} jari terangkat`;
+            
+            // Tentukan bentuk berdasarkan jumlah jari
+            let shapeName = "Bintang Acak";
+            let targetPoints = [];
+            
+            switch (raisedFingers) {
+                case 1:
+                    shapeName = "Lingkaran";
+                    targetPoints = generateCirclePoints();
+                    break;
+                case 2:
+                    shapeName = "Hati (Love)";
+                    targetPoints = generateHeartPoints();
+                    break;
+                case 3:
+                    shapeName = "Segitiga";
+                    targetPoints = generateTrianglePoints();
+                    break;
+                case 4:
+                    shapeName = "Persegi";
+                    targetPoints = generateSquarePoints();
+                    break;
+                case 5:
+                    shapeName = "Spiral";
+                    targetPoints = generateSpiralPoints();
+                    break;
+                default:
+                    // Acak untuk kepalan tangan (0 jari) atau lainnya
+                    targetPoints = generateRandomPoints();
+            }
+            
+            // Update indikator bentuk
+            if (lastGesture !== shapeName) {
+                document.getElementById('shapeIndicator').textContent = `Bentuk: ${shapeName}`;
+                lastGesture = shapeName;
+            }
+            
+            // Dapatkan posisi telapak tangan (landmark 9 adalah pangkal tangan tengah)
+            const palmBase = landmarks[9];
+            
+            // Normalisasi posisi tangan ke koordinat canvas utama
+            const handX = (palmBase.x / videoCanvas.width) * mainCanvas.width;
+            const handY = (palmBase.y / videoCanvas.height) * mainCanvas.height;
+            
+            // Update target posisi bintang berdasarkan bentuk dan posisi tangan
+            updateStarTargets(targetPoints, handX, handY);
+        }
+        
+        // Gambar landmark tangan (versi sederhana)
+        function drawHandLandmarks(hand) {
+            if (!isVideoOn) return;
+            
+            // Skala untuk posisi landmark
+            const scaleX = videoCanvas.width / video.width;
+            const scaleY = videoCanvas.height / video.height;
+            const scale = Math.min(scaleX, scaleY);
+            const offsetX = (videoCanvas.width - video.width * scale) / 2;
+            const offsetY = (videoCanvas.height - video.height * scale) / 2;
+            
+            videoCtx.save();
+            videoCtx.translate(offsetX, offsetY);
+            videoCtx.scale(scale, scale);
+            
+            // Gambar titik landmark
+            videoCtx.fillStyle = '#00ff00';
+            hand.keypoints.forEach(point => {
+                videoCtx.beginPath();
+                videoCtx.arc(point.x, point.y, 4, 0, Math.PI * 2);
+                videoCtx.fill();
+            });
+            
+            // Gambar garis sederhana antara landmark
+            videoCtx.strokeStyle = '#00ff00';
+            videoCtx.lineWidth = 2;
+            
+            // Hubungkan titik-titik untuk membuat bentuk tangan sederhana
+            const connections = [
+                [0, 1], [1, 2], [2, 3], [3, 4], // Ibu jari
+                [0, 5], [5, 6], [6, 7], [7, 8], // Telunjuk
+                [0, 9], [9, 10], [10, 11], [11, 12], // Tengah
+                [0, 13], [13, 14], [14, 15], [15, 16], // Manis
+                [0, 17], [17, 18], [18, 19], [19, 20] // Kelingking
+            ];
+            
+            connections.forEach(conn => {
+                const p1 = hand.keypoints[conn[0]];
+                const p2 = hand.keypoints[conn[1]];
+                videoCtx.beginPath();
+                videoCtx.moveTo(p1.x, p1.y);
+                videoCtx.lineTo(p2.x, p2.y);
+                videoCtx.stroke();
+            });
+            
+            videoCtx.restore();
+        }
+        
+        // Generate titik untuk bentuk lingkaran
+        function generateCirclePoints() {
+            const points = [];
+            const radius = Math.min(mainCanvas.width, mainCanvas.height) * 0.2;
+            const segments = STAR_COUNT;
+            
+            for (let i = 0; i < segments; i++) {
+                const angle = (i / segments) * Math.PI * 2;
+                points.push({
+                    x: Math.cos(angle) * radius,
+                    y: Math.sin(angle) * radius
+                });
+            }
+            
+            return points;
+        }
+        
+        // Generate titik untuk bentuk hati
+        function generateHeartPoints() {
+            const points = [];
+            const size = Math.min(mainCanvas.width, mainCanvas.height) * 0.15;
+            const segments = STAR_COUNT;
+            
+            for (let i = 0; i < segments; i++) {
+                const t = (i / segments) * Math.PI * 2;
+                // Rumus parametrik untuk bentuk hati
+                const x = 16 * Math.pow(Math.sin(t), 3);
+                const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+                
+                points.push({
+                    x: x * size * 0.04,
+                    y: -y * size * 0.04  // Negatif karena koordinat Y canvas terbalik
+                });
+            }
+            
+            return points;
+        }
+        
+        // Generate titik untuk bentuk segitiga
+        function generateTrianglePoints() {
+            const points = [];
+            const size = Math.min(mainCanvas.width, mainCanvas.height) * 0.25;
+            const segmentsPerSide = Math.floor(STAR_COUNT / 3);
+            
+            // Tiga sisi segitiga
+            for (let side = 0; side < 3; side++) {
+                for (let i = 0; i < segmentsPerSide; i++) {
+                    const t = i / segmentsPerSide;
+                    let x, y;
+                    
+                    switch (side) {
+                        case 0: // Sisi kiri
+                            x = -size/2 + t * size;
+                            y = size/2 - t * size;
+                            break;
+                        case 1: // Sisi kanan
+                            x = size/2 - t * size;
+                            y = size/2 - t * size;
+                            break;
+                        case 2: // Sisi bawah
+                            x = -size/2 + t * size;
+                            y = size/2;
+                            break;
+                    }
+                    
+                    points.push({x, y});
+                }
+            }
+            
+            return points;
+        }
+        
+        // Generate titik untuk bentuk persegi
+        function generateSquarePoints() {
+            const points = [];
+            const size = Math.min(mainCanvas.width, mainCanvas.height) * 0.2;
+            const segmentsPerSide = Math.floor(STAR_COUNT / 4);
+            
+            // Empat sisi persegi
+            for (let side = 0; side < 4; side++) {
+                for (let i = 0; i < segmentsPerSide; i++) {
+                    const t = i / segmentsPerSide;
+                    let x, y;
+                    
+                    switch (side) {
+                        case 0: // Sisi atas
+                            x = -size/2 + t * size;
+                            y = -size/2;
+                            break;
+                        case 1: // Sisi kanan
+                            x = size/2;
+                            y = -size/2 + t * size;
+                            break;
+                        case 2: // Sisi bawah
+                            x = size/2 - t * size;
+                            y = size/2;
+                            break;
+                        case 3: // Sisi kiri
+                            x = -size/2;
+                            y = size/2 - t * size;
+                            break;
+                    }
+                    
+                    points.push({x, y});
+                }
+            }
+            
+            return points;
+        }
+        
+        // Generate titik untuk bentuk spiral
+        function generateSpiralPoints() {
+            const points = [];
+            const maxRadius = Math.min(mainCanvas.width, mainCanvas.height) * 0.3;
+            const turns = 3;
+            
+            for (let i = 0; i < STAR_COUNT; i++) {
+                const t = i / STAR_COUNT;
+                const angle = t * Math.PI * 2 * turns;
+                const radius = t * maxRadius;
+                
+                points.push({
+                    x: Math.cos(angle) * radius,
+                    y: Math.sin(angle) * radius
+                });
+            }
+            
+            return points;
+        }
+        
+        // Generate titik acak
+        function generateRandomPoints() {
+            const points = [];
+            const spread = Math.min(mainCanvas.width, mainCanvas.height) * 0.5;
+            
+            for (let i = 0; i < STAR_COUNT; i++) {
+                points.push({
+                    x: (Math.random() - 0.5) * spread,
+                    y: (Math.random() - 0.5) * spread
+                });
+            }
+            
+            return points;
+        }
+        
+        // Update target posisi bintang
+        function updateStarTargets(targetPoints, centerX, centerY) {
+            for (let i = 0; i < stars.length; i++) {
+                const point = targetPoints[i % targetPoints.length];
+                stars[i].targetX = centerX + point.x;
+                stars[i].targetY = centerY + point.y;
+            }
+        }
+        
+        // Toggle tampilan video
+        function toggleVideo() {
+            isVideoOn = !isVideoOn;
+            const btn = document.getElementById('toggleVideoBtn');
+            btn.textContent = isVideoOn ? 'Sembunyikan Video' : 'Tampilkan Video';
+            
+            if (!isVideoOn) {
+                videoCtx.clearRect(0, 0, videoCanvas.width, videoCanvas.height);
+            }
+        }
+        
+        // Toggle fullscreen
+        function toggleFullscreen() {
+            const container = document.querySelector('.container');
+            
+            if (!document.fullscreenElement) {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+        
+        // Fungsi animasi utama
+        function animate() {
+            // Clear canvas utama
+            mainCtx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+            mainCtx.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
+            
+            // Tambahkan efek gradien latar belakang
+            const gradient = mainCtx.createLinearGradient(0, 0, mainCanvas.width, mainCanvas.height);
+            gradient.addColorStop(0, 'rgba(10, 10, 40, 0.1)');
+            gradient.addColorStop(1, 'rgba(0, 0, 20, 0.1)');
+            mainCtx.fillStyle = gradient;
+            mainCtx.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
+            
+            // Update dan gambar bintang
+            stars.forEach(star => {
+                star.update(star.targetX, star.targetY);
+                star.draw(mainCtx);
+            });
+            
+            // Tambahkan efek partikel kecil
+            for (let i = 0; i < 5; i++) {
+                const x = Math.random() * mainCanvas.width;
+                const y = Math.random() * mainCanvas.height;
+                const size = Math.random() * 1.5;
+                
+                mainCtx.beginPath();
+                mainCtx.arc(x, y, size, 0, Math.PI * 2);
+                mainCtx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.5})`;
+                mainCtx.fill();
+            }
+            
+            animationId = requestAnimationFrame(animate);
+        }
+        
+        // Inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', init);
+        
+        // Cleanup saat halaman ditutup
+        window.addEventListener('beforeunload', () => {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+            
+            if (video && video.srcObject) {
+                const tracks = video.srcObject.getTracks();
+                tracks.forEach(track => track.stop());
+            }
+        });
+    </script>
+</body>
+</html>
