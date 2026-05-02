@@ -54,50 +54,23 @@
         }
 
         .score-board {
-            background: #ffde9c;
-            padding: 8px;
-            border-radius: 24px;
-            color: #6b2e00;
-            font-weight: bold;
-            font-size: 1.1rem;
-            line-height: 1.25;
-            letter-spacing: 0;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            white-space: nowrap;
-            text-shadow: none;
-            box-shadow: inset 0 -2px 0 #cb8b42, 0 5px 10px rgba(0,0,0,0.1);
-            border: 2px solid rgba(90, 46, 18, 0.18);
-        }
-
-        .score-item {
-            background: rgba(255, 250, 240, 0.72);
-            border-radius: 18px;
-            padding: 7px 12px;
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-        }
-
-        .score-label {
-            font-size: 0.82rem;
-            color: #7a3c12;
-        }
-
-        .score-number {
-            min-width: 26px;
-            height: 26px;
-            padding: 0 7px;
-            border-radius: 13px;
-            background: #6b2e00;
-            color: #fff7df;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
+            background: #fff4cf;
+            padding: 10px 22px;
+            border-radius: 40px;
+            color: #4b2100;
             font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: 0;
+            line-height: 1.2;
+            text-shadow: none;
+            white-space: nowrap;
+            border: 2px solid #ffd966;
+            box-shadow: inset 0 -2px 0 #cb8b42, 0 5px 12px rgba(0,0,0,0.16);
+        }
+
+        .score-board span {
+            color: #8b3c1c;
+            font-weight: 900;
         }
 
         /* ========== LEVEL SYSTEM & MINIATUR RUMAH ========== */
@@ -789,18 +762,6 @@
         }
 
         @media (max-width: 650px) {
-            body { padding: 12px; }
-            .minang-header { padding: 22px 16px 16px; border-radius: 34px; }
-            .minang-header h1 { font-size: 1.55rem; gap: 12px; justify-content: center; text-align: center; }
-            .score-board { width: 100%; max-width: 340px; font-size: 0.95rem; padding: 7px; gap: 6px; }
-            .score-item { flex: 1; justify-content: center; padding: 7px 8px; }
-            .score-label { font-size: 0.76rem; }
-            .score-number { min-width: 24px; height: 24px; font-size: 0.95rem; }
-            .level-container { border-radius: 28px; padding: 14px; }
-            .level-info { width: 100%; justify-content: center; }
-            .level-badge { font-size: 1rem; padding: 8px 16px; }
-            .level-progress { width: 100%; min-width: 0; }
-            .progress-text { text-align: center; font-size: 0.85rem; font-weight: 700; }
             .option-btn { min-width: 140px; font-size: 1rem;}
             .question-text { font-size: 1.5rem;}
             .music-player { flex-direction: column; align-items: stretch; }
@@ -821,10 +782,7 @@
 <div class="minang-header">
     <h1>
         <span>🏔️ Wikikato</span>
-        <div class="score-board">
-            <span class="score-item">⭐ <span class="score-label">Poin Level</span> <span class="score-number" id="poinCount">0</span></span>
-            <span class="score-item">❤️ <span class="score-label">Nyawa</span> <span class="score-number" id="heartCount">5</span></span>
-        </div>
+        <div class="score-board">⭐ Poin Level: <span id="poinCount">0</span> &nbsp;| ❤️ <span id="heartCount">5</span></div>
     </h1>
     <div style="font-size: 0.9rem; color:#ffe1b3; margin-top: 8px;">"Bahaso manjadi identitas, alek jo budayo"</div>
 </div>
@@ -951,7 +909,7 @@
 
 <div class="footer-minang">
     🌾 "Di mano bumi dipijak, di sinan bahaso di pakai" 🌾 <br>
-    Kamus + Game ala Duolingo Untuak Urang Minang
+    Kamus + Game Untuak Urang Minang
 </div>
 
 <script>
@@ -1003,54 +961,106 @@
 
     // ========== KAMUS DATA DENGAN TERJEMAHAN BAHASA INDONESIA & INGGRIS ==========
     const kamusData = [
-        { minang: "Ampok", indo: "Tidur", inggris: "Sleep" },
+        { minang: "Abak / Apak", indo: "Ayah / Bapak", inggris: "Father" },
+        { minang: "Amak / Mande", indo: "Ibu / Bunda", inggris: "Mother" },
+        { minang: "Uda", indo: "Kakak Laki-laki", inggris: "Older Brother" },
+        { minang: "Uni", indo: "Kakak Perempuan", inggris: "Older Sister" },
+        { minang: "Adiak Laki-laki", indo: "Adik Laki-laki", inggris: "Younger Brother" },
+        { minang: "Adiak Padusi", indo: "Adik Perempuan", inggris: "Younger Sister" },
+        { minang: "Mamak", indo: "Paman (Saudara Ibu)", inggris: "Maternal Uncle" },
+        { minang: "Mak Adang / Mak Tuo", indo: "Bibi (Kakak Ibu)", inggris: "Older Maternal Aunt" },
+        { minang: "Etek", indo: "Bibi (Adik Ibu)", inggris: "Younger Maternal Aunt" },
+        { minang: "Pak Etek / Pak Dang", indo: "Paman (Saudara Ayah)", inggris: "Paternal Uncle" },
+        { minang: "Mak Dang / Mak Ciak", indo: "Bibi (Saudara Ayah)", inggris: "Paternal Aunt" },
+        { minang: "Angku / Akia", indo: "Kakek", inggris: "Grandfather" },
+        { minang: "Gaek / Anduang", indo: "Nenek", inggris: "Grandmother" },
+        { minang: "Kamanakan", indo: "Keponakan", inggris: "Nephew / Niece" },
+        { minang: "Dunsanak", indo: "Kerabat / Saudara", inggris: "Relatives" },
+        { minang: "Minantu", indo: "Menantu", inggris: "Son/Daughter-in-law" },
+        { minang: "Bako", indo: "Keluarga Pihak Ayah", inggris: "Paternal Family" },
+        { minang: "Bungsu", indo: "Anak Terakhir", inggris: "Youngest Child" },
+        { minang: "Inyiak / Niniak", indo: "Buyut", inggris: "Great Grandparent" },
+        { minang: "Sapupu", indo: "Saudara Sepupu", inggris: "Cousin" },
         { minang: "Makan", indo: "Makan", inggris: "Eat" },
         { minang: "Minum", indo: "Minum", inggris: "Drink" },
-        { minang: "Lai", indo: "Masih", inggris: "Still" },
-        { minang: "Indak", indo: "Tidak", inggris: "No / Not" },
-        { minang: "Awak", indo: "Saya / Kami", inggris: "I / We" },
-        { minang: "Ang", indo: "Kamu", inggris: "You" },
-        { minang: "Inyo", indo: "Dia", inggris: "He / She" },
-        { minang: "Ka rumah", indo: "Ke rumah", inggris: "To home" },
-        { minang: "Sakola", indo: "Sekolah", inggris: "School" },
-        { minang: "Karajo", indo: "Kerja", inggris: "Work" },
-        { minang: "Basarato", indo: "Bersama", inggris: "Together" },
-        { minang: "Cantik", indo: "Cantik", inggris: "Beautiful" },
-        { minang: "Gadang", indo: "Besar", inggris: "Big" },
-        { minang: "Kaciak", indo: "Kecil", inggris: "Small" },
+        { minang: "Tidua / Lalok", indo: "Tidur", inggris: "Sleep" },
+        { minang: "Jalan", indo: "Berjalan", inggris: "Walk" },
+        { minang: "Baliak / Pulang", indo: "Pulang", inggris: "Go home" },
+        { minang: "Duduak", indo: "Duduk", inggris: "Sit" },
+        { minang: "Tagak / Badiri", indo: "Berdiri", inggris: "Stand" },
+        { minang: "Balari", indo: "Berlari", inggris: "Run" },
+        { minang: "Caliak / Liaek", indo: "Melihat", inggris: "Look / See" },
+        { minang: "Mandanga", indo: "Mendengar", inggris: "Hear / Listen" },
+        { minang: "Bakato / Basorak", indo: "Berbicara", inggris: "Speak / Talk" },
+        { minang: "Manulih", indo: "Menulis", inggris: "Write" },
+        { minang: "Mambaco", indo: "Membaca", inggris: "Read" },
+        { minang: "Manari", indo: "Menari", inggris: "Dance" },
+        { minang: "Pajalan / Bepergian", indo: "Bepergian", inggris: "Travel" },
+        { minang: "Bakarajo", indo: "Bekerja", inggris: "Work" },
+        { minang: "Baraja", indo: "Belajar", inggris: "Study / Learn" },
+        { minang: "Manolong", indo: "Menolong", inggris: "Help" },
+        { minang: "Mambuang", indo: "Membuang", inggris: "Throw away" },
+        { minang: "Maambiak", indo: "Mengambil", inggris: "Take" },
+        { minang: "Rancak / Elok", indo: "Bagus / Cantik", inggris: "Good / Beautiful" },
+        { minang: "Buruak", indo: "Buruk / Jelek", inggris: "Bad / Ugly" },
+        { minang: "Lamo", indo: "Lama", inggris: "Old (Duration)" },
+        { minang: "Baru", indo: "Baru", inggris: "New" },
+        { minang: "Gadang", indo: "Besar", inggris: "Big / Large" },
+        { minang: "Ketek", indo: "Kecil", inggris: "Small / Little" },
+        { minang: "Lueh", indo: "Luas", inggris: "Wide" },
+        { minang: "Sampik", indo: "Sempit", inggris: "Narrow" },
+        { minang: "Cipek / Laju", indo: "Cepat", inggris: "Fast / Quick" },
+        { minang: "Lambek", indo: "Lambat", inggris: "Slow" },
+        { minang: "Jaleh", indo: "Jelas", inggris: "Clear" },
+        { minang: "Galok", indo: "Gelap", inggris: "Dark" },
+        { minang: "Manih", indo: "Manis", inggris: "Sweet" },
+        { minang: "Kareh", indo: "Keras / Sulit", inggris: "Hard / Difficult" },
+        { minang: "Lambuak / Lunyuak", indo: "Lunak / Lembut", inggris: "Soft" },
         { minang: "Jauah", indo: "Jauh", inggris: "Far" },
-        { minang: "Dakek", indo: "Dekat", inggris: "Near" },
-        { minang: "Baralek", indo: "Pesta kawin", inggris: "Wedding party" },
-        { minang: "Urang", indo: "Orang", inggris: "Person" },
-        { minang: "Rumah gadang", indo: "Rumah besar", inggris: "Big house (traditional)" },
-        { minang: "Padi", indo: "Padi", inggris: "Rice plant" },
+        { minang: "Dakek", indo: "Dekat", inggris: "Near / Close" },
+        { minang: "Banyak / Rami", indo: "Banyak / Ramai", inggris: "Many / Crowded" },
         { minang: "Lamak", indo: "Enak", inggris: "Delicious" },
-        { minang: "Asam padeh", indo: "Makanan khas", inggris: "Traditional sour spicy dish" },
-        { minang: "Sawah", indo: "Sawah", inggris: "Rice field" },
-        { minang: "Ayam", indo: "Ayam", inggris: "Chicken" },
-        { minang: "Kuah", indo: "Kuah", inggris: "Sauce / Gravy" },
-        { minang: "Nasi", indo: "Nasi", inggris: "Cooked rice" },
-        { minang: "Lapiak", indo: "Tikar", inggris: "Mat" },
-        { minang: "Alu", indo: "Alu", inggris: "Pestle" },
-        { minang: "Silek", indo: "Silat", inggris: "Martial art" },
-        { minang: "Randang", indo: "Rendang", inggris: "Rendang (beef stew)" },
-        { minang: "Kalio", indo: "Kalio", inggris: "Kalio (coconut curry)" },
-        { minang: "Pisang goreng", indo: "Pisang goreng", inggris: "Fried banana" },
-        { minang: "Balado", indo: "Balado", inggris: "Spicy chili sauce" },
-        { minang: "Dendeng", indo: "Dendeng", inggris: "Dried meat" },
-        { minang: "Basi", indo: "Basi (tengik)", inggris: "Stale" },
-        { minang: "Caliak", indo: "Lihat", inggris: "See / Look" },
-        { minang: "Danga", indo: "Dengar", inggris: "Hear / Listen" },
-        { minang: "Bicaro", indo: "Bicara", inggris: "Talk / Speak" },
-        { minang: "Jalan", indo: "Jalan", inggris: "Walk" },
-        { minang: "Lari", indo: "Lari", inggris: "Run" },
-        { minang: "Iko", indo: "Ini", inggris: "This" },
-        { minang: "Itu", indo: "Itu", inggris: "That" },
-        { minang: "Beko", indo: "Nanti", inggris: "Later" },
-        { minang: "Kini", indo: "Sekarang", inggris: "Now" },
-        { minang: "Salamat", indo: "Selamat", inggris: "Safe / Congratulations" },
-        { minang: "Alamak", indo: "Astaga", inggris: "Oh my!" },
-        { minang: "Bungo", indo: "Bunga", inggris: "Flower" }
+        { minang: "Karing", indo: "Kering", inggris: "Dry" },
+        { minang: "Rumah", indo: "Rumah", inggris: "House" },
+        { minang: "Gunuang", indo: "Gunung", inggris: "Mountain" },
+        { minang: "Batang Aia", indo: "Sungai", inggris: "River" },
+        { minang: "Aia", indo: "Air", inggris: "Water" },
+        { minang: "Ujan", indo: "Hujan", inggris: "Rain" },
+        { minang: "Angin", indo: "Angin", inggris: "Wind" },
+        { minang: "Mataari", indo: "Matahari", inggris: "Sun" },
+        { minang: "Bulan", indo: "Bulan", inggris: "Moon" },
+        { minang: "Bintang", indo: "Bintang", inggris: "Star" },
+        { minang: "Subuah / Pagi Hari", indo: "Pagi Buta / Pagi", inggris: "Dawn / Morning" },
+        { minang: "Siang", indo: "Siang", inggris: "Day" },
+        { minang: "Sanjo / Sore", indo: "Sore / Senja", inggris: "Afternoon / Evening" },
+        { minang: "Malam", indo: "Malam", inggris: "Night" },
+        { minang: "Sinayan", indo: "Senin", inggris: "Monday" },
+        { minang: "Salasa", indo: "Selasa", inggris: "Tuesday" },
+        { minang: "Rabu", indo: "Rabu", inggris: "Wednesday" },
+        { minang: "Kamih", indo: "Kamis", inggris: "Thursday" },
+        { minang: "Jumaik", indo: "Jumat", inggris: "Friday" },
+        { minang: "Sabtu", indo: "Sabtu", inggris: "Saturday" },
+        { minang: "Akaik / Minggu", indo: "Minggu", inggris: "Sunday" },
+        { minang: "Ba kaba? / A kaba?", indo: "Apa kabar?", inggris: "How are you?" },
+        { minang: "Elok-elok se", indo: "Baik-baik saja", inggris: "I am fine" },
+        { minang: "Tarimo kasih", indo: "Terima kasih", inggris: "Thank you" },
+        { minang: "Samo-samo", indo: "Sama-sama", inggris: "You're welcome" },
+        { minang: "Maaf", indo: "Maaf", inggris: "Sorry" },
+        { minang: "Iyo", indo: "Ya", inggris: "Yes" },
+        { minang: "Indak / Ndak", indo: "Tidak", inggris: "No" },
+        { minang: "Bana", indo: "Benar / Sangat", inggris: "True / Very" },
+        { minang: "Sia?", indo: "Siapa?", inggris: "Who?" },
+        { minang: "Apo? / A?", indo: "Apa?", inggris: "What?" },
+        { minang: "Dima? / Dimano?", indo: "Di mana?", inggris: "Where?" },
+        { minang: "Bilo?", indo: "Kapan?", inggris: "When?" },
+        { minang: "Dek a? / Manga?", indo: "Mengapa?", inggris: "Why?" },
+        { minang: "Ba'a? / Bagaimano?", indo: "Bagaimana?", inggris: "How?" },
+        { minang: "Sadang apo?", indo: "Sedang apa?", inggris: "What are you doing?" },
+        { minang: "Ka ma? / Ka mano?", indo: "Mau ke mana?", inggris: "Where are you going?" },
+        { minang: "Ndak apo-apo", indo: "Tidak apa-apa", inggris: "It's okay" },
+        { minang: "Lamak bana", indo: "Enak sekali", inggris: "Very delicious" },
+        { minang: "Rancak bana", indo: "Bagus sekali", inggris: "Very good" },
+        { minang: "Sia se / A se", indo: "Siapa saja / Apa saja", inggris: "Anyone / Anything" }
     ];
 
     const sentenceData = [
